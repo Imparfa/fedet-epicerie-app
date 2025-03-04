@@ -1,0 +1,8 @@
+{
+  "name": "fedet-epicerie-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "8afbe025"
+}
