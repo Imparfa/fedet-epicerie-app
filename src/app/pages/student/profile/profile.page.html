@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title (click)="logout()">Mon Profil</ion-title>
+    <ion-buttons slot="end">
+      <ion-button id="open-edit-profile" class="ion-no-padding" fill="clear" size="large">
+        <ion-icon slot="icon-only" name="create"></ion-icon>
+      </ion-button>
+      <ion-modal #editProfileModal trigger="open-edit-profile" class="edit-profile-modal">
+        <ng-template>
+          <app-edit-profile-modal [editProfileModal]="editProfileModal"></app-edit-profile-modal>
+        </ng-template>
+      </ion-modal>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid>
+    <ion-row class="ion-justify-content-around">
+      <ion-col size="12" size-sm="6">
+        <ion-img [src]="student?.qrCode"></ion-img>
+      </ion-col>
+      <ion-col id="info" size="12" size-sm="6">
+        <ion-text>
+          <ion-title>{{student?.firstname}} {{student?.lastname}}</ion-title>
+          {{getAge()}} ans
+        </ion-text>
+        <ion-text>Date de Naissance: {{student?.birthdate | date:'dd/MM/yyyy'}}</ion-text>
+        <ion-text>Email: {{student?.email}}</ion-text>
+        <ion-text>
+          Étudiant: <a [style.color]="student?.isStudent?'lightgreen':'red'"
+                       style="font-weight: bold">{{student?.isStudent ? 'OUI' : 'NON'}}</a>
+        </ion-text>
+        <ion-text *ngIf="student?.isStudent">
+          Niveau: {{student?.graduation?.toString()?.toUpperCase()}}
+        </ion-text>
+        <ion-text *ngIf="student?.isStudent">
+          Formation: {{student?.formation}}
+        </ion-text>
+        <ion-text>Membres du Foyer: {{student?.household}}</ion-text>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

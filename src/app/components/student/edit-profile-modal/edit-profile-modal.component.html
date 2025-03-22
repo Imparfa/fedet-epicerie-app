@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Modifier Profil</ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="ion-no-padding" (click)="cancel()" fill="clear" size="large">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label position="floating">Email</ion-label>
+    <ion-input [(ngModel)]="updatedStudent.email"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Formation</ion-label>
+    <ion-input [(ngModel)]="updatedStudent.formation"></ion-input>
+  </ion-item>
+
+  <ion-button expand="full" (click)="saveChanges()">Enregistrer</ion-button>
+</ion-content>

@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar color="primary" (click)="logout()">
+    <ion-title>Tableau de Bord</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-md="4" *ngFor="let stat of stats">
+        <ion-card>
+          <ion-card-header>
+            <ion-icon [name]="stat.icon" size="large"></ion-icon>
+          </ion-card-header>
+          <ion-card-content>
+            <h2>{{ stat.count }}</h2>
+            <p>{{ stat.title }}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

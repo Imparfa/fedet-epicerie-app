@@ -1,35 +1,37 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import {RoleGuard} from "../guards/role.guard";
 
 const routes: Routes = [
   {
-    path: 'tabs',
+    path: '',
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
-        loadChildren: () => import('../tab1/tab1.module').then(m => m.Tab1PageModule)
+        path: 'student',
+        canActivate: [RoleGuard],
+        data: { expectedRole: 'STUDENT' },
+        children: [
+          { path: 'profile', loadChildren: () => import('../pages/student/profile/profile.module').then(m => m.ProfilePageModule) },
+          { path: '', redirectTo: 'profile', pathMatch: 'full' }
+        ]
       },
       {
-        path: 'tab2',
-        loadChildren: () => import('../tab2/tab2.module').then(m => m.Tab2PageModule)
-      },
-      {
-        path: 'tab3',
-        loadChildren: () => import('../tab3/tab3.module').then(m => m.Tab3PageModule)
+        path: 'admin',
+        canActivate: [RoleGuard],
+        data: { expectedRole: 'ADMIN' },
+        children: [
+          { path: 'dashboard', loadChildren: () => import('../pages/admin/dashboard/dashboard.module').then(m => m.DashboardPageModule) },
+          { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
+        ]
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '',
         pathMatch: 'full'
       }
     ]
-  },
-  {
-    path: '',
-    redirectTo: '/tabs/tab1',
-    pathMatch: 'full'
   }
 ];
 
