@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import { StudentService } from '../../../services/student.service';
-import { Student } from '../../../models/student/student';
-import {IonicModule, IonModal, ModalController} from '@ionic/angular';
-import { EditProfileModalComponent } from '../../../components/student/edit-profile-modal/edit-profile-modal.component';
+import {StudentService} from '../../../services/student.service';
+import {Student} from '../../../models/student';
+import {IonicModule, IonModal} from '@ionic/angular';
+import {EditProfileModalComponent} from '../../../components/student/edit-profile-modal/edit-profile-modal.component';
 import {DatePipe, NgIf} from "@angular/common";
 import {AuthenticationService} from "../../../services/authentication.service";
 

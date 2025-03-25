@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar id="pageHeader" color="primary">
     <ion-title (click)="logout()">Mon Profil</ion-title>
     <ion-buttons slot="end">
       <ion-button id="open-edit-profile" class="ion-no-padding" fill="clear" size="large">
@@ -7,14 +7,14 @@
       </ion-button>
       <ion-modal #editProfileModal trigger="open-edit-profile" class="edit-profile-modal">
         <ng-template>
-          <app-edit-profile-modal [editProfileModal]="editProfileModal"></app-edit-profile-modal>
+          <app-edit-profile-modal [editProfileModal]="editProfileModal" role="STUDENT"></app-edit-profile-modal>
         </ng-template>
       </ion-modal>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content>
   <ion-grid>
     <ion-row class="ion-justify-content-around">
       <ion-col size="12" size-sm="6">

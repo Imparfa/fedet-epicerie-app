@@ -1,10 +1,10 @@
-<ion-content [fullscreen]="true" class="ion-justify-content-center ion-align-items-center">
-  <ion-grid class="ion-align-self-center">
-    <ion-row class="ion-align-items-center">
+<ion-content [fullscreen]="true" class="">
+  <ion-grid class="">
+    <ion-row class="">
       <ion-col size="12" size-sm="6" size-md="6" class="ion-justify-content-center">
         <ion-img src="assets/logo-fedet.png"></ion-img>
       </ion-col>
-      <ion-col size="12" size-sm="6" size-md="6" class="ion-justify-content-around connection-buttons">
+      <ion-col size="12" size-sm="6" size-md="6" class="connection-buttons">
         <ion-button id="open-login" expand="block">{{ "Se Connecter".toUpperCase() }}</ion-button>
         <ion-modal #loginModal trigger="open-login" class="auth-modal">
           <ng-template>

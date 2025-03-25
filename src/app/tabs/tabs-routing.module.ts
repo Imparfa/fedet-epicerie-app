@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { TabsPage } from './tabs.page';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {TabsPage} from './tabs.page';
 import {RoleGuard} from "../guards/role.guard";
 
 const routes: Routes = [
@@ -23,6 +23,22 @@ const routes: Routes = [
         data: { expectedRole: 'ADMIN' },
         children: [
           { path: 'dashboard', loadChildren: () => import('../pages/admin/dashboard/dashboard.module').then(m => m.DashboardPageModule) },
+          {
+            path: 'distributions',
+            loadChildren: () => import('../pages/admin/distributions/distributions.module').then(m => m.DistributionsPageModule)
+          },
+          {
+            path: 'cash-register',
+            loadChildren: () => import('../pages/admin/cash-register/cash-register.module').then(m => m.CashRegisterPageModule)
+          },
+          {
+            path: 'students',
+            loadChildren: () => import('../pages/admin/students/students.module').then(m => m.StudentsPageModule)
+          },
+          {
+            path: 'visits',
+            loadChildren: () => import('../pages/admin/visits/visits.module').then(m => m.VisitsPageModule)
+          },
           { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
         ]
       },

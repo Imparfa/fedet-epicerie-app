@@ -2,10 +2,12 @@ ion-content {
   --background: #ffffff;
   --color: #000000;
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 ion-grid {
-  height: 90% !important;
+  height: 100% !important;
   width: 80%;
 }
 
@@ -49,11 +51,21 @@ ion-title {
 
 @media (max-width: 575.5px) {
   ion-grid {
-    height: 70% !important;
+    justify-content: center;
     width: 70%;
   }
   ion-row {
-    align-items: start !important;
+    align-items: center !important;
+    //justify-content: space-between !important;
+
+    ion-col {
+      height: 40% !important;
+      align-content: end !important;
+    }
+
+    .connection-buttons {
+      justify-content: start !important;
+    }
   }
 }
 

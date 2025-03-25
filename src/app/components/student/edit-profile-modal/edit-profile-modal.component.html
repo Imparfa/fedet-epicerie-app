@@ -1,6 +1,9 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Modifier Profil</ion-title>
+  <ion-toolbar id="pageHeader" color="primary">
+    <ion-title *ngIf="role === 'ADMIN'">Modifier le Profil
+      de {{ student?.firstname }} {{ student?.lastname?.toUpperCase() }}
+    </ion-title>
+    <ion-title *ngIf="role === 'STUDENT'">Modifier mon Profil</ion-title>
     <ion-buttons slot="end">
       <ion-button class="ion-no-padding" (click)="cancel()" fill="clear" size="large">
         <ion-icon slot="icon-only" name="close"></ion-icon>

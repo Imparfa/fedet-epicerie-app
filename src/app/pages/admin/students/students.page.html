@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar id="pageHeader" color="primary">
+    <ion-title>Liste des étudiants</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" style="overflow-y: hidden">
+  <ion-searchbar [(ngModel)]="searchQuery" placeholder="Rechercher un étudiant"></ion-searchbar>
+
+  <ion-list style="overflow-y: scroll">
+    <ion-item *ngFor="let student of filterStudents()">
+      <ion-label>
+        <h2>{{ student.firstname }} {{ student.lastname }}</h2>
+        <p>{{ student.email }}</p>
+      </ion-label>
+      <ion-buttons slot="end" (click)="selectStudent(student)">
+        <ion-button class="ion-no-padding" fill="clear" size="large">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+  <ion-modal #editStudentModal class="edit-student-modal">
+    <ng-template>
+      <app-edit-profile-modal [editProfileModal]="editStudentModal" [student]="selectedStudent"
+                              role="ADMIN"></app-edit-profile-modal>
+    </ng-template>
+  </ion-modal>
+</ion-content>

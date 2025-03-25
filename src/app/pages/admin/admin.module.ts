@@ -1,13 +1,15 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {IonicModule} from '@ionic/angular';
+import {RouterModule, Routes} from '@angular/router';
 
 // Pages ADMIN
-import { DashboardPage } from './dashboard/dashboard.page';
-// import { RegisterPage } from './register/register.page';
-// import { StudentsManagementPage } from './students/students.page';
+import {DashboardPage} from './dashboard/dashboard.page';
+import {CashRegisterPage} from "./cash-register/cash-register.page";
+import {StudentsPage} from "./students/students.page";
+import {VisitsPage} from "./visits/visits.page";
+import {DistributionsPage} from "./distributions/distributions.page";
 
 const routes: Routes = [
   {
@@ -20,12 +22,20 @@ const routes: Routes = [
     component: DashboardPage
   },
   {
-    path: 'register',
-    // component: RegisterPage
+    path: 'distributions',
+    component: DistributionsPage
+  },
+  {
+    path: 'cash-register',
+    component: CashRegisterPage
   },
   {
     path: 'students',
-    // component: StudentsManagementPage
+    component: StudentsPage
+  },
+  {
+    path: 'visits',
+    component: VisitsPage
   }
 ];
 
@@ -35,9 +45,6 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    DashboardPage,
-    // RegisterPage,
-    // StudentsManagementPage
   ],
   declarations: []
 })

@@ -1,8 +1,8 @@
-import type { CapacitorConfig } from '@capacitor/cli';
+import type {CapacitorConfig} from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'fedet-epicerie-app',
+  appId: 'com.fedet.collect',
+  appName: 'Tilia',
   webDir: 'www'
 };
 

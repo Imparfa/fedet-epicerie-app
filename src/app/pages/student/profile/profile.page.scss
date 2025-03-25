@@ -1,6 +1,21 @@
+ion-header {
+  ion-title {
+    font-size: 1.7em;
+  }
+}
+
 ion-content {
   --background: #ffffff;
   --color: #ffffff;
+
+  ion-title {
+    width: 100%;
+    height: auto;
+    text-align: center;
+    padding: 0;
+    font-size: 2em;
+    margin: 1.5% 0;
+  }
 }
 
 //ion-toolbar {
@@ -9,15 +24,6 @@ ion-content {
 //  border-bottom-left-radius: 50%;
 //  border-bottom-right-radius: 50%;
 //}
-
-ion-title {
-  width: 100%;
-  height: auto;
-  text-align: center;
-  padding: 0;
-  font-size: 2em;
-  margin: 1.5% 0;
-}
 
 ion-img {
   width: 90%;

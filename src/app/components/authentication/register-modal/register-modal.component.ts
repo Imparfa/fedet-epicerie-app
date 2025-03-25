@@ -2,9 +2,9 @@ import {Component, Input} from '@angular/core';
 import {IonicModule, IonModal} from "@ionic/angular";
 import {FormsModule} from "@angular/forms";
 import {NgForOf, NgIf} from "@angular/common";
-import {Formation} from "../../../models/student/formation";
-import {Graduation} from "../../../models/student/graduation";
-import {Student} from "../../../models/student/student";
+import {Formation} from "../../../models/formation";
+import {Graduation} from "../../../models/graduation";
+import {Student} from "../../../models/student";
 
 @Component({
   selector: 'app-register-modal',
