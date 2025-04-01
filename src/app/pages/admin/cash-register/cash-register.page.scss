@@ -1,0 +1,89 @@
+ion-content {
+  --background: #ffffff;
+  --color: #ffffff;
+  overflow: hidden;
+}
+
+ion-toolbar {
+  ion-buttons {
+    color: #ef0909;
+
+    ion-button {
+      --color: #ef0909;
+    }
+  }
+}
+
+ion-grid {
+  padding: 0;
+  height: 100% !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  ion-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    //height: 50% !important;
+    width: 70% !important;
+
+    ion-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+
+      .open {
+        margin: 0;
+        width: 90%;
+        aspect-ratio: 1/1;
+        --border-radius: 25px;
+      }
+    }
+  }
+}
+
+.student-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80%;
+}
+
+ion-card-title {
+  --color: #000000;
+}
+
+ion-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  ion-segment {
+    //--background: #54dc98;
+    color: var(--ion-color-primary);
+  }
+}
+
+ion-fab-button {
+  --background: #24519f !important;
+  //--color: #24519f !important;
+  opacity: 1 !important;
+}
+
+@media (min-width: 750px) {
+  ion-grid {
+    ion-row {
+      ion-col {
+        .open {
+          width: 70%;
+          aspect-ratio: auto;
+          height: 100%;
+        }
+      }
+    }
+  }
+}

@@ -1,13 +1,27 @@
 <ion-header>
-  <ion-toolbar id="pageHeader" color="primary">
-    <ion-title>Gestion des points de Distribution</ion-title>
+  <ion-toolbar id="pageHeader" mode="ios" color="primary">
+    <ion-title>Gestion des distributions</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">distributions</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-item>
+    <ion-label position="floating">Nouveau distribution</ion-label>
+    <ion-input [(ngModel)]="newDistributionName"></ion-input>
+  </ion-item>
+  <ion-button expand="block" (click)="createDistribution()">Ajouter</ion-button>
+
+  <ion-list>
+    <ion-item *ngFor="let distribution of distributions">
+      <ion-label>
+        <h2>{{ distribution.name }}</h2>
+        <p>Status : {{ distribution.isActive ? 'Actif' : 'Inactif' }}</p>
+      </ion-label>
+      <ion-toggle slot="end" [(ngModel)]="distribution.isActive"
+                  (ionChange)="updateDistribution(distribution)"></ion-toggle>
+      <ion-button color="danger" slot="end" fill="clear" (click)="deleteDistribution(distribution.id)">
+        Supprimer
+      </ion-button>
+    </ion-item>
+  </ion-list>
 </ion-content>

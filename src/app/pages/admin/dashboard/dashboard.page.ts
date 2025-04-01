@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component} from '@angular/core';
 import {IonicModule} from "@ionic/angular";
 import {NgForOf} from "@angular/common";
 import {AuthenticationService} from "../../../services/authentication.service";
+import {ManagementService} from "../../../services/management.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -12,18 +13,35 @@ import {AuthenticationService} from "../../../services/authentication.service";
   ],
   styleUrls: ['./dashboard.page.scss']
 })
-export class DashboardPage implements OnInit {
+export class DashboardPage implements AfterViewInit {
   stats = [
-    { title: 'Total Utilisateurs', count: 120, icon: 'people' },
-    { title: 'Achats Réalisés', count: 45, icon: 'cart' },
-    { title: 'Produits Disponibles', count: 350, icon: 'pricetag' }
+    {title: "Nombre d'Adhérants Total", count: 0, icon: 'people'},
+    {title: "Nombre de Visit Total", count: 0, icon: 'cart'},
+    {title: "Nombre de Visit d'Aujourd'huis", count: 0, icon: 'calendar-number'}
   ];
 
-  constructor(private authService: AuthenticationService) {}
+  constructor(private authService: AuthenticationService, private managementService: ManagementService) {
+  }
 
   logout() {
     this.authService.logout();
   }
 
-  ngOnInit() {}
+  async incrementCount(index: number, count: number) {
+    for (let i = 0; i < count; i++) {
+      this.stats[index].count++;
+      await new Promise(resolve => setTimeout(resolve, 10)); // Simulate delay
+    }
+  }
+
+  ngAfterViewInit() {
+    this.managementService.getStats().subscribe({
+      next: (res) => {
+        this.incrementCount(0, res.totalStudents);
+        this.incrementCount(1, res.totalVisits);
+        this.incrementCount(2, res.visitsToday);
+      },
+      error: (err) => console.error(err),
+    });
+  }
 }

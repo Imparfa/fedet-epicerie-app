@@ -28,4 +28,15 @@ export class StudentService {
     console.log('DEBUG_INFO: Request student profile modification for: ', JSON.stringify(updatedStudent));
     return this.http.patch<Student>(this.apiUrl + '/student/profile', updatedStudent);
   }
+
+  formatISODate(date: Date): string {
+    let year = date.getFullYear();
+    let month = (date.getMonth() + 1).toString().padStart(2, '0');
+    let day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  enumIterator(enumeration: any): Array<string> {
+    return Object.keys(enumeration).filter(key => !isNaN(Number(enumeration[key])));
+  }
 }

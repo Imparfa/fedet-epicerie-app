@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar id="pageHeader" color="primary">
+  <ion-toolbar id="pageHeader" mode="ios" color="primary">
     <ion-title>Liste des dernières visites</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -12,8 +12,12 @@
       <ion-label>
         <h2>{{ visit.student.firstname }} {{ visit.student.lastname }}</h2>
         <p>{{ visit.student.email }}</p>
-        <p>📅 {{ visit.visitDate | date:'short' }} | 📍 {{ visit.location }} | 💳 {{ visit.paymentMethod }}</p>
+        <p>📅 {{ visit.visitDate | date:'dd/MM/YYYY' }} | 📍 {{ visit.distribution.name }} |
+          💳 {{ visit.paymentMethod }}</p>
       </ion-label>
     </ion-item>
   </ion-list>
+  <ion-infinite-scroll (ionInfinite)="loadMoreVisits($event)" threshold="100px" *ngIf="!allLoaded">
+    <ion-infinite-scroll-content loadingText="Chargement..." loadingSpinner="bubbles"></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

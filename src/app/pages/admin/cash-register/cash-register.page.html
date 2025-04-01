@@ -1,13 +1,110 @@
 <ion-header>
-  <ion-toolbar id="pageHeader" color="primary">
-    <ion-title>Caisse Enregistreuse</ion-title>
+  <ion-toolbar id="pageHeader" mode="ios" color="primary">
+    <ion-title *ngIf="!collectService.selectedDistribution">Caisse Enregistreuse</ion-title>
+
+    <ion-title *ngIf="collectService.isOpen && collectService.selectedDistribution" class="ion-text-center">
+      Distribution de {{ collectService.selectedDistribution.name }}
+    </ion-title>
+    <ion-buttons *ngIf="collectService.isOpen" slot="end">
+      <ion-button class="ion-no-padding" (click)="close()" fill="clear" size="large">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">cash-register</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content #opening *ngIf="!collectService.isOpen || !collectService.selectedDistribution" [fullscreen]="true">
+  <ion-grid>
+    <ion-row class="ion-justify-content-around">
+      <ng-container *ngIf="!collectService.isOpen">
+        <ion-col size="12" size-sm="12">
+          <ion-button expand="block" class="open" (click)="open()">
+            <ion-icon name="lock-open" slot="start"></ion-icon>
+            <ion-text>OUVRIR CAISSE</ion-text>
+          </ion-button>
+        </ion-col>
+      </ng-container>
+      <ng-container *ngIf="collectService.isOpen">
+        <ion-col *ngFor="let distribution of distributions" size="6" size-sm="6">
+          <ion-button style="display: flex; flex-direction: column" expand="block" class="open"
+                      (click)="selectDistribution(distribution)">
+            <ion-icon name="business" slot="start"></ion-icon>
+            <ion-text>{{ distribution.name }}</ion-text>
+          </ion-button>
+        </ion-col>
+      </ng-container>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-content #scanner *ngIf="collectService.isOpen && collectService.selectedDistribution" [fullscreen]="true">
+  <ng-container *ngIf="scannedStudent" class="student-display">
+    <section>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title
+            class="ion-text-center">{{ scannedStudent.firstname }} {{ scannedStudent.lastname.toUpperCase() }}
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-text>
+            Date de Naissance: {{ scannedStudent.birthdate | date:'dd/MM/yyyy' }}
+          </ion-text>
+          <ion-text>
+            Email: {{ scannedStudent.email }}
+          </ion-text>
+          <ion-text>
+            Etudiant: <a [style.color]="scannedStudent.isStudent?'lightgreen':'red'"
+                         style="font-weight: bold">{{ scannedStudent.isStudent ? 'OUI' : 'NON' }}</a>
+          </ion-text>
+          <ion-text>
+            Employé: <a [style.color]="scannedStudent.isWorker?'lightgreen':'red'"
+                        style="font-weight: bold">{{ scannedStudent.isWorker ? 'OUI' : 'NON' }}</a>
+          </ion-text>
+          <ion-text *ngIf="scannedStudent.isStudent">
+            Niveau: {{ scannedStudent.graduation }}
+          </ion-text>
+          <ion-text *ngIf="scannedStudent.isStudent">
+            Formation: {{ scannedStudent.formation }}
+          </ion-text>
+          <ion-text>
+            Membres du Foyer: {{ scannedStudent.household }}
+          </ion-text>
+          <ion-text *ngIf="scannedStudent.lastVisit && scannedStudent.lastLocation">
+            Dérnière Visite: {{ scannedStudent.lastLocation }} - {{ scannedStudent.lastVisit | date:'dd/MM/yyyy' }}
+          </ion-text>
+        </ion-card-content>
+      </ion-card>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title class="ion-text-center">Comment l'étudiant à t-il payé ?</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-segment mode="ios" color="primary" value="CASH"
+                       (ionChange)="selectPaymentMethod($event.detail.value === 'CASH' ? 'CASH' : 'CARD')">
+            <ion-segment-button value="CASH">
+              <ion-icon name="cash"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button value="CARD">
+              <ion-icon name="card"></ion-icon>
+            </ion-segment-button>
+          </ion-segment>
+          <ion-button expand="block" color="success" (click)="validate()">Valider le passage</ion-button>
+        </ion-card-content>
+      </ion-card>
+    </section>
+  </ng-container>
+  <ng-container *ngIf="!scannedStudent">
+    <section class="student-display">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title class="ion-text-center">Scannez un QR Code Etudiant pour commencer</ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </section>
+  </ng-container>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="center">
+    <ion-fab-button (click)="scan(null)" [disabled]="!collectService.isSupported">
+      <ion-icon name="qr-code-outline" style="font-size: 40px"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

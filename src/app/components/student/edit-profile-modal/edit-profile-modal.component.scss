@@ -1,0 +1,67 @@
+ion-content {
+  --background: white;
+  --color: black;
+  height: 85% !important;
+}
+
+.cancel {
+  font-size: 2em;
+  cursor: pointer;
+}
+
+ion-grid {
+  height: 100%;
+  padding-left: 0;
+  overflow: auto;
+}
+
+ion-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+ion-item {
+  border: #0d0d0d solid 1px;
+  border-radius: 4px;
+}
+
+ion-input, ion-select, ion-item, .item-native {
+  height: 45px !important;
+  min-height: 45px !important;
+  --height: 45px !important;
+  --min-height: 45px !important;
+  --background: white !important;
+  --color: black !important;
+}
+
+ion-datetime, ion-list, .list-md, .list-ios, .list-native {
+  --background: white !important;
+  --color: black !important;
+  background: white !important;
+  color: black !important;
+  scrollbar-color: (#2e69cf);
+}
+
+ion-toggle::part(track) {
+  background: #b0b0b0;
+}
+
+
+ion-toggle.toggle-checked::part(track) {
+  background: #91a8cf;
+}
+
+.button-native {
+  padding: 0 !important;
+}
+
+@media (max-width: 575.5px) {
+  ion-content {
+    height: 91% !important;
+  }
+  ion-grid {
+    overflow-y: scroll;
+    padding-left: 10px;
+  }
+}

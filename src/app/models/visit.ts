@@ -1,16 +1,9 @@
 import {Student} from "./student";
+import {Distribution} from "./distribution";
 
-export class Visit {
-
+export interface Visit {
+  paymentMethod: string;
+  visitDate: string;
+  distribution: Distribution;
   student: Student;
-  visitDate: string = "";
-  location: string = "";
-  paymentMethod: string = "";
-
-  constructor(student: Student, visitDate: string, location: string, paymentMethod: string) {
-    this.student = student;
-    this.visitDate = visitDate;
-    this.location = location;
-    this.paymentMethod = paymentMethod;
-  }
 }

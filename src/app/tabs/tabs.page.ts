@@ -9,13 +9,15 @@ import {AuthenticationService} from "../services/authentication.service";
   standalone: false,
 })
 export class TabsPage implements OnInit {
+  isStudent: boolean = true;
   public appTabs: any[] = [];
 
-  constructor(private authService: AuthenticationService, private router: Router) {}
+  constructor(protected authService: AuthenticationService, private router: Router) {
+  }
 
   async ngOnInit() {
-    const isAdmin = await this.isAdmin();
-    if (isAdmin) {
+    this.isStudent = !(await this.isAdmin());
+    if (!this.isStudent) {
       this.appTabs = [
         {title: 'Accueil', url: '/tabs/admin/dashboard', icon: 'stats-chart'},
         {title: 'Distributions', url: '/tabs/admin/distributions', icon: 'business'},

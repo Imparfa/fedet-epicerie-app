@@ -38,4 +38,14 @@
 
 #pageHeader {
   padding-top: 1.3em;
+
+  ion-title {
+    width: 100%;
+    padding-inline: 0;
+    font-size: 1.3em;
+  }
+}
+
+.alert-radio-label, .alert-radio-icon {
+  color: #0d0d0d !important;
 }

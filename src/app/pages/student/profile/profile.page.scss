@@ -63,6 +63,10 @@ ion-icon {
   align-self: center;
 }
 
+app-edit-profile-modal {
+  height: 100% !important;
+}
+
 @media (max-width: 575.9px) {
   ion-col {
     height: 50% !important;

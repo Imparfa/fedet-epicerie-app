@@ -1,13 +1,17 @@
 <ion-header>
   <ion-toolbar id="pageHeader" color="primary">
-    <ion-title (click)="logout()">Mon Profil</ion-title>
+    <ion-title
+      style="position: absolute; height: 100%; width: 100%; top: 0; text-align: center; font-weight: bold; font-size: 1.3em">
+      Mon Profil
+    </ion-title>
     <ion-buttons slot="end">
       <ion-button id="open-edit-profile" class="ion-no-padding" fill="clear" size="large">
         <ion-icon slot="icon-only" name="create"></ion-icon>
       </ion-button>
-      <ion-modal #editProfileModal trigger="open-edit-profile" class="edit-profile-modal">
+      <ion-modal #editProfileModal mode="android" trigger="open-edit-profile" class="edit-profile-modal">
         <ng-template>
-          <app-edit-profile-modal [editProfileModal]="editProfileModal" role="STUDENT"></app-edit-profile-modal>
+          <app-edit-profile-modal [editProfileModal]="editProfileModal" [student]="student"
+                                  role="STUDENT"></app-edit-profile-modal>
         </ng-template>
       </ion-modal>
     </ion-buttons>

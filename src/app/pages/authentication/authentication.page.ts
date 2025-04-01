@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {IonicModule, IonModal} from "@ionic/angular";
 import {AuthenticationService} from "../../services/authentication.service";
 import {Router} from "@angular/router";
@@ -36,6 +36,12 @@ export class AuthenticationPage {
   }
 
   register(registerData: any) {
+    if (!registerData.formation) {
+      registerData.formation = "AUTRE";
+    }
+    if (!registerData.graduation) {
+      registerData.graduation = "BAC";
+    }
     this.authService.register(registerData).subscribe({
       next: () => {
         this.registerModal?.dismiss(null, 'confirm');

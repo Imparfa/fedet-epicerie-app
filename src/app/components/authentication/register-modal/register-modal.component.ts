@@ -1,10 +1,11 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {IonicModule, IonModal} from "@ionic/angular";
 import {FormsModule} from "@angular/forms";
 import {NgForOf, NgIf} from "@angular/common";
 import {Formation} from "../../../models/formation";
 import {Graduation} from "../../../models/graduation";
 import {Student} from "../../../models/student";
+import {StudentService} from "../../../services/student.service";
 
 @Component({
   selector: 'app-register-modal',
@@ -17,19 +18,19 @@ import {Student} from "../../../models/student";
     NgForOf
   ]
 })
-export class RegisterModalComponent {
+export class RegisterModalComponent implements OnInit {
 
   @Input() registerModal: IonModal | undefined;
   @Input() registerFunction: Function | undefined;
 
-  registerStudent: Student = new Student('', '', this.formatISODate(new Date(Date.now())), Formation.MMI, Graduation["BAC+3"], 0, false, false, '', '' )
-
+  registerStudent: Partial<Student> = {};
   confirmPassword: string = '';
-  calendar: string = this.formatISODate(new Date(Date.now()));
+  calendar: string = this.studentService.formatISODate(new Date(Date.now()));
 
   errorMessage: string = '';
 
-  constructor() { }
+  constructor(protected studentService: StudentService) {
+  }
 
   register() {
     if (!this.validateInputs()) {
@@ -46,7 +47,7 @@ export class RegisterModalComponent {
 
   validateInputs(): boolean {
     if (!this.registerStudent.firstname || !this.registerStudent.lastname || !this.registerStudent.email ||
-      !this.registerStudent.password || !this.confirmPassword || !this.registerStudent.birthdate || !this.registerStudent.formation) {
+      !this.registerStudent.password || !this.confirmPassword || !this.registerStudent.birthdate) {
       this.errorMessage = "Tous les champs doivent être remplis.";
       return false;
     }
@@ -59,19 +60,13 @@ export class RegisterModalComponent {
     return true;
   }
 
-  formatISODate(date: Date): string {
-    let year = date.getFullYear();
-    let month = (date.getMonth() + 1).toString().padStart(2, '0');
-    let day = date.getDate().toString().padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  }
-
   doneCalendar() {
-    this.registerStudent.birthdate = this.formatISODate(new Date(this.calendar));
+    if (this.registerStudent)
+      this.registerStudent.birthdate = this.studentService.formatISODate(new Date(this.calendar));
   }
 
-  enumIterator(enumeration: any): Array<string> {
-    return Object.keys(enumeration).filter(key => !isNaN(Number(enumeration[key])));
+  ngOnInit(): void {
+    this.registerStudent.birthdate = this.studentService.formatISODate(new Date(Date.now()));
   }
 
   protected readonly Formation = Formation;

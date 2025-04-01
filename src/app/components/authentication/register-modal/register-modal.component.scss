@@ -1,7 +1,3 @@
-ion-toolbar {
-  --color: white;
-}
-
 .cancel {
   font-size: 2em;
   cursor: pointer;
@@ -10,7 +6,7 @@ ion-toolbar {
 ion-content {
   --background: white;
   --color: black;
-  height: 91% !important;
+  height: 85% !important;
 }
 
 ion-grid {
@@ -23,6 +19,11 @@ ion-col {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+ion-item {
+  border: #0d0d0d solid 1px;
+  border-radius: 4px;
 }
 
 ion-input, ion-select, ion-item, .item-native {
@@ -56,6 +57,9 @@ ion-toggle.toggle-checked::part(track) {
 }
 
 @media (max-width: 575.5px) {
+  ion-content {
+    height: 91% !important;
+  }
   ion-grid {
     overflow-y: scroll;
     padding-left: 10px;

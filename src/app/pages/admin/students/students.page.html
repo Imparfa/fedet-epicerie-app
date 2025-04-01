@@ -1,13 +1,13 @@
 <ion-header>
-  <ion-toolbar id="pageHeader" color="primary">
+  <ion-toolbar id="pageHeader" mode="ios" color="primary">
     <ion-title>Liste des étudiants</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding" style="overflow-y: hidden">
-  <ion-searchbar [(ngModel)]="searchQuery" placeholder="Rechercher un étudiant"></ion-searchbar>
-
-  <ion-list style="overflow-y: scroll">
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-searchbar [(ngModel)]="searchQuery" (ionInput)="onSearchChange()"
+                 placeholder="Rechercher un étudiant"></ion-searchbar>
+  <ion-list>
     <ion-item *ngFor="let student of filterStudents()">
       <ion-label>
         <h2>{{ student.firstname }} {{ student.lastname }}</h2>
@@ -20,6 +20,9 @@
       </ion-buttons>
     </ion-item>
   </ion-list>
+  <ion-infinite-scroll (ionInfinite)="loadMoreStudents($event)" threshold="100px" *ngIf="!allLoaded">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Chargement..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
   <ion-modal #editStudentModal class="edit-student-modal">
     <ng-template>
       <app-edit-profile-modal [editProfileModal]="editStudentModal" [student]="selectedStudent"
