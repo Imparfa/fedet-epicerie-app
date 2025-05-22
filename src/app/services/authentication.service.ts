@@ -11,6 +11,7 @@ import {Student} from "../models/student";
 export class AuthenticationService {
   private authSubject = new BehaviorSubject<boolean>(false);
   private apiUrl = 'https://fedet.truttmann.fr';
+  isStudent: boolean = true;
 
   constructor(
     private http: HttpClient,
@@ -20,9 +21,14 @@ export class AuthenticationService {
     this.init();
   }
 
+
   async init() {
     const token = await this.storageService.getToken();
     if (token) this.authSubject.next(true);
+    this.isStudent = !(await this.isAdmin());
+    console.log("DEBUG_INFO: Initialisation de l'authentification avec le token: ", token);
+    console.log("DEBUG_INFO: Initialisation de l'authentification avec le role: ", this.isStudent ? 'STUDENT' : 'ADMIN');
+    console.log("DEBUG_INFO: Initialisation de l'authentification avec le status: ", this.authSubject.value);
   }
 
   login(credentials: { email: string, password: string }): Observable<any> {
@@ -33,6 +39,7 @@ export class AuthenticationService {
         await this.storageService.setToken(response.token);
         await this.storageService.setRole(response.role);
         this.authSubject.next(true);
+        this.isStudent = (response.role === 'STUDENT');
         console.log("Utilisateur connecté avec succés: ", response)
         this.router.navigate([await this.getRole() === 'ADMIN' ? '/tabs/admin/dashboard' : '/tabs/student/profile'])
           .catch(error => console.error('Erreur de redirection:', error));
@@ -48,6 +55,7 @@ export class AuthenticationService {
         await this.storageService.setToken(response.token);
         await this.storageService.setRole(response.role);
         this.authSubject.next(true);
+        this.isStudent = (response.role === 'STUDENT');
         console.log("Utilisateur enregistré avec succés: ", JSON.stringify(response))
         this.router.navigate([await this.getRole() === 'ADMIN' ? '/tabs/admin/dashboard' : '/tabs/student/profile'])
           .catch(error => console.error('Erreur de redirection:', error));
@@ -72,5 +80,10 @@ export class AuthenticationService {
 
   isAuthenticated(): Observable<boolean> {
     return this.authSubject.asObservable();
+  }
+
+  async isAdmin() {
+    const role = await this.getRole();
+    return role === 'ADMIN';
   }
 }

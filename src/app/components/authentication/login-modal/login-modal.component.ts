@@ -1,8 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {IonicModule, IonModal} from "@ionic/angular";
-import {AuthenticationService} from "../../../services/authentication.service";
-import {Router} from "@angular/router";
 import {FormsModule} from "@angular/forms";
+import {DeviceService} from "../../../services/device.service";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-login-modal',
@@ -10,16 +10,20 @@ import {FormsModule} from "@angular/forms";
   styleUrls: ['./login-modal.component.scss'],
   imports: [
     IonicModule,
-    FormsModule
+    FormsModule,
+    NgIf
   ]
 })
 export class LoginModalComponent {
 
   @Input() loginModal: IonModal | undefined;
   @Input() loginFunction: Function | undefined;
+  @Input() switchFunction: Function | undefined;
   credentials = { email: '', password: '' };
+  showPassword = false;
 
-  constructor() {}
+  constructor(protected deviceService: DeviceService) {
+  }
 
   login() {
     if (this.loginFunction) {
@@ -29,5 +33,11 @@ export class LoginModalComponent {
 
   cancel() {
     this.loginModal?.dismiss(null, 'cancel').then();
+  }
+
+  switchMode(target: 'login' | 'register') {
+    if (this.switchFunction) {
+      this.switchFunction(target);
+    }
   }
 }

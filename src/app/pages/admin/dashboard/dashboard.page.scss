@@ -1,0 +1,26 @@
+ion-card {
+  ion-card-header {
+    background: var(--ion-color-primary);
+    color: white;
+    padding-block: 0;
+
+    ion-toolbar {
+      --background: rgba(0, 0, 0, 0);
+      --color: white;
+
+      h2 {
+        margin: 0;
+      }
+    }
+  }
+
+  ion-card-content {
+    text-align: center;
+    padding: 5px;
+
+    h2 {
+      margin: 7px;
+      font-size: 1rem;
+    }
+  }
+}

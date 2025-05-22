@@ -1,47 +1,55 @@
-<ion-header [translucent]="true" class="ion-no-border">
-  <ion-toolbar id="pageHeader" mode="ios" color="primary">
-    <ion-title>Se Connecter</ion-title>
-    <ion-buttons slot="end">
+<ion-header id="anchor" [translucent]="true" class="ion-no-border">
+  <ion-toolbar id="pageHeader" color="primary" class="ion-no-border">
+    <ion-buttons slot="start">
       <ion-button class="ion-no-padding" (click)="cancel()" fill="clear" size="large">
-        <ion-icon slot="icon-only" name="close"></ion-icon>
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
+    <ion-title (click)="switchMode('register')" slot="end" style="text-decoration: underline; cursor: pointer">Créer un
+      Compte
+    </ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content class="ion-padding ion-justify-content-center">
+<ion-content color="primary" class="ion-padding ion-justify-content-center">
+  <ion-title *ngIf="deviceService.isPlatform('mobile')" style="padding-top: 12%; padding-bottom: 5%; font-size: 2em">Se
+    Connecter
+  </ion-title>
   <ion-grid>
     <ion-row class="ion-justify-content-center">
-      <ion-col>
+      <ion-col size="12" size-md="12">
         <ion-input
           required="true"
           [(ngModel)]="credentials.email"
           fill="outline"
+          shape="round"
           label="Adresse Email"
           labelPlacement="stacked"
           type="email"
           placeholder="Entrez votre adresse email"></ion-input>
       </ion-col>
-    </ion-row>
-    <ion-row class="ion-justify-content-center">
-      <ion-col>
+      <ion-col size="12" size-md="12">
         <ion-input
           required="true"
           [(ngModel)]="credentials.password"
           fill="outline"
+          shape="round"
           label="Mot de Passe"
           labelPlacement="stacked"
-          type="password"
-          placeholder="Entrez votre mot de passe"></ion-input>
+          [type]="showPassword?'text':'password'"
+          placeholder="Entrez votre mot de passe">
+          <ion-button (click)="showPassword=!showPassword" fill="clear" slot="end" aria-label="Show/hide">
+            <ion-icon slot="icon-only" [name]="showPassword?'eye-off-outline':'eye-outline'"
+                      aria-hidden="true"></ion-icon>
+          </ion-button>
+        </ion-input>
       </ion-col>
     </ion-row>
     <ion-row class="ion-justify-content-center">
-      <ion-col>
-        <ion-button (click)="login()" color="primary">Se Connecter</ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-text (click)="cancel()" class="forgot-password">Mot de Passe Oublié</ion-text>
+      <ion-col id="anchor" size="12" size-md="12" class="ion-justify-content-center">
+        <ion-button (click)="login()" color="primary" shape="round" size="large" expand="block">Se Connecter
+        </ion-button>
+        <ion-text (click)="cancel()" class="forgot-password ion-text-end ion-padding-top">Mot de Passe Oublié ?
+        </ion-text>
       </ion-col>
     </ion-row>
   </ion-grid>

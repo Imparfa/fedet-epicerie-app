@@ -4,6 +4,7 @@ import {AuthenticationService} from "../../services/authentication.service";
 import {Router} from "@angular/router";
 import {LoginModalComponent} from "../../components/authentication/login-modal/login-modal.component";
 import {RegisterModalComponent} from "../../components/authentication/register-modal/register-modal.component";
+import {DeviceService} from "../../services/device.service";
 
 @Component({
   selector: 'app-authentication',
@@ -18,9 +19,9 @@ import {RegisterModalComponent} from "../../components/authentication/register-m
 export class AuthenticationPage {
   @ViewChild("loginModal") loginModal: IonModal | undefined;
   @ViewChild("registerModal") registerModal: IonModal | undefined;
-  errorMessage: string = '';
 
-  constructor(private authService: AuthenticationService, private router: Router) {}
+  constructor(private authService: AuthenticationService, private router: Router, private deviceService: DeviceService) {
+  }
 
   login(credentials: { email: string, password: string }) {
     this.authService.login(credentials).subscribe({
@@ -30,7 +31,7 @@ export class AuthenticationPage {
       },
       error: err => {
         console.error('Échec de la connexion:', err);
-        this.errorMessage = 'Identifiants incorrects, veuillez réessayer.';
+        this.deviceService.showToast("Identifiants incorrects, veuillez réessayer.", "danger", "alert-circle");
       }
     });
   }
@@ -49,8 +50,20 @@ export class AuthenticationPage {
       },
       error: err => {
         console.error('Échec de l’inscription:', err);
-        this.errorMessage = 'Une erreur est survenue, veuillez réessayer.';
+        this.deviceService.showToast("Une erreur est survenue, veuillez réessayer.", "danger", "alert-circle");
       }
     });
+  }
+
+  switchMode(target: 'login' | 'register') {
+    if (target === 'login') {
+      this.registerModal?.dismiss(null, 'cancel').then(() => {
+        this.loginModal?.present();
+      });
+    } else {
+      this.loginModal?.dismiss(null, 'cancel').then(() => {
+        this.registerModal?.present();
+      });
+    }
   }
 }

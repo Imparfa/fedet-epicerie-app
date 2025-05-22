@@ -1,10 +1,14 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {IonicModule, IonModal} from "@ionic/angular";
+import {Component, ViewChild} from '@angular/core';
+import {IonicModule, IonModal, ViewWillEnter} from "@ionic/angular";
 import {FormsModule} from "@angular/forms";
 import {NgForOf, NgIf} from "@angular/common";
 import {Student} from "../../../models/student";
 import {ManagementService} from "../../../services/management.service";
 import {EditProfileModalComponent} from "../../../components/student/edit-profile-modal/edit-profile-modal.component";
+import {RegisterModalComponent} from "../../../components/authentication/register-modal/register-modal.component";
+import {AuthenticationService} from "../../../services/authentication.service";
+import {DeviceService} from "../../../services/device.service";
+import {ViewProfileModalComponent} from "../../../components/admin/view-profile-modal/view-profile-modal.component";
 
 @Component({
   selector: 'app-students',
@@ -14,11 +18,15 @@ import {EditProfileModalComponent} from "../../../components/student/edit-profil
     IonicModule,
     FormsModule,
     NgForOf,
+    NgIf,
     EditProfileModalComponent,
-    NgIf
+    RegisterModalComponent,
+    ViewProfileModalComponent
   ]
 })
-export class StudentsPage implements OnInit {
+export class StudentsPage implements ViewWillEnter {
+  @ViewChild("registerStudentModal") registerStudentModal: IonModal | undefined;
+  @ViewChild("viewStudentModal") viewStudentModal: IonModal | undefined;
   @ViewChild("editStudentModal") editStudentModal: IonModal | undefined;
   students: Student[] = [];
   selectedStudent: Student | null = null;
@@ -28,10 +36,10 @@ export class StudentsPage implements OnInit {
   allLoaded = false;
   searchQuery: string = '';
 
-  constructor(private managementService: ManagementService) {
+  constructor(private managementService: ManagementService, private authService: AuthenticationService, private deviceService: DeviceService) {
   }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.loadMoreStudents();
   }
 
@@ -64,13 +72,6 @@ export class StudentsPage implements OnInit {
     this.loadMoreStudents();
   }
 
-  loadStudents() {
-    this.managementService.getStudents().subscribe({
-      next: (data) => this.students = data,
-      error: (err) => console.error(err),
-    });
-  }
-
   filterStudents(): Student[] {
     const query = this.searchQuery.toLowerCase();
     return this.students.filter(student =>
@@ -79,8 +80,35 @@ export class StudentsPage implements OnInit {
     );
   }
 
+  viewStudent(student: Student) {
+    this.selectedStudent = student;
+    this.viewStudentModal?.present();
+  }
+
   selectStudent(student: Student) {
     this.selectedStudent = student;
     this.editStudentModal?.present();
+  }
+
+  createStudent() {
+    this.selectedStudent = null;
+    this.registerStudentModal?.present();
+  }
+
+  registerStudent(registerData: any) {
+    if (!registerData.formation) {
+      registerData.formation = "AUTRE";
+    }
+    if (!registerData.graduation) {
+      registerData.graduation = "BAC";
+    }
+    this.authService.register(registerData)
+      .subscribe({
+        next: () => {
+          this.deviceService.showToast('Étudiant créer avec succé', 'success', 'checkmark-circle');
+          this.registerStudentModal?.dismiss(null, 'confirm');
+        },
+        error: () => this.deviceService.showToast('Erreur: Étudiant non créer', 'danger', 'alert-circle'),
+      });
   }
 }

@@ -1,20 +1,107 @@
-<ion-header>
-  <ion-toolbar id="pageHeader" mode="ios" color="primary" (click)="logout()">
+<ion-header id="anchor">
+  <ion-toolbar id="pageHeader" mode="ios" color="primary" (click)="authService.logout();">
     <ion-title>Tableau de Bord</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content>
   <ion-grid>
     <ion-row>
-      <ion-col size="12" size-md="4" *ngFor="let stat of stats">
+      <ion-col size="6" size-md="6">
         <ion-card>
           <ion-card-header>
-            <ion-icon [name]="stat.icon" size="large"></ion-icon>
+            <ion-toolbar>
+              <ion-icon slot="start" name="calendar-number-outline" size="large"></ion-icon>
+              <ion-text slot="end"><h2>{{ stats.visitsToday }}</h2></ion-text>
+            </ion-toolbar>
           </ion-card-header>
           <ion-card-content>
-            <h2>{{ stat.count }}</h2>
-            <p>{{ stat.title }}</p>
+            <p>Visites d'Aujourd'hui</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6" size-md="6">
+        <ion-card>
+          <ion-card-header>
+            <ion-toolbar>
+              <ion-icon slot="start" name="people-outline" size="large"></ion-icon>
+              <ion-text slot="end"><h2>{{ stats.totalStudents }}</h2></ion-text>
+            </ion-toolbar>
+          </ion-card-header>
+          <ion-card-content>
+            <p>Adhérants Total</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12" size-md="6">
+        <ion-card>
+          <ion-card-header>
+            <ion-toolbar>
+              <ion-icon slot="start" name="bag-check-outline" size="large"></ion-icon>
+              <ion-text slot="end"><h2>{{ stats.totalVisits }}</h2></ion-text>
+            </ion-toolbar>
+          </ion-card-header>
+          <ion-card-content>
+            <p>Visites Total</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6" size-md="3">
+        <ion-card>
+          <ion-card-header>
+            <ion-toolbar>
+              <ion-icon slot="start" name="card-outline" size="large"></ion-icon>
+              <ion-text slot="end"><h2>{{ stats.cardPayments }}</h2></ion-text>
+            </ion-toolbar>
+          </ion-card-header>
+          <ion-card-content>
+            <p>Nombre de Paiements par Carte</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6" size-md="3">
+        <ion-card>
+          <ion-card-header>
+            <ion-toolbar>
+              <ion-icon slot="start" name="cash-outline" size="large"></ion-icon>
+              <ion-text slot="end"><h2>{{ stats.cashPayments }}</h2></ion-text>
+            </ion-toolbar>
+          </ion-card-header>
+          <ion-card-content>
+            <p>Paiements en Espèces</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12" size-md="3">
+        <ion-card>
+          <ion-card-header>
+            <ion-toolbar>
+              <ion-icon slot="start" name="business-outline" size="large"></ion-icon>
+              <ion-text slot="end"><h2>{{ stats.totalDistributions }}</h2></ion-text>
+            </ion-toolbar>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-text style="text-decoration: underline"><h2>Activitées des Distributions</h2></ion-text>
+            <ion-text *ngFor="let distribution of stats.visitsByDistribution"><h3>{{ distribution.name }}
+              - {{ distribution.count }}</h3></ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12" size-md="3">
+        <ion-card>
+          <ion-card-header>
+            <ion-toolbar>
+              <ion-icon slot="start" name="library-outline" size="large"></ion-icon>
+            </ion-toolbar>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-text style="text-decoration: underline"><h2>Formations les plus actives</h2></ion-text>
+            <ion-text *ngFor="let formation of stats.mostActiveFormations"><h3>{{ formation.name }}
+              - {{ formation.count }}</h3></ion-text>
           </ion-card-content>
         </ion-card>
       </ion-col>

@@ -1,4 +1,4 @@
-<ion-header class="ion-no-border">
+<ion-header id="anchor" class="ion-no-border">
   <ion-toolbar id="pageHeader" mode="ios" color="primary">
     <ion-title *ngIf="role === 'ADMIN'">Modifier le Profil
       de {{ student?.firstname }}
@@ -11,13 +11,12 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-content [fullscreen]="true">
+<ion-content>
   <ion-grid>
     <ion-row>
       <ion-col size="12" size-md="6">
         <ion-input
           required="true"
-          mode="android"
           [(ngModel)]="updatedStudent.firstname"
           fill="outline"
           label="Prénom"
@@ -28,7 +27,6 @@
       <ion-col size="12" size-md="6">
         <ion-input
           required="true"
-          mode="android"
           [(ngModel)]="updatedStudent.lastname"
           autocapitalize="on"
           fill="outline"
@@ -41,7 +39,6 @@
     <ion-row *ngIf="role === 'ADMIN'">
       <ion-col size="12" size-md="6">
         <ion-input
-          mode="android"
           required="true"
           fill="outline"
           label="Date de Naissance"
@@ -68,7 +65,6 @@
       <ion-col size="12" size-md="6">
         <ion-input
           required="true"
-          mode="android"
           [(ngModel)]="updatedStudent.household"
           fill="outline"
           label="Population du Foyer"
@@ -81,12 +77,12 @@
     </ion-row>
     <ion-row *ngIf="role === 'ADMIN'">
       <ion-col size="12" size-md="6">
-        <ion-item fill="outline" lines="none" mode="android">
+        <ion-item fill="outline" lines="none">
           <ion-toggle [(ngModel)]="updatedStudent.isStudent">Êtes vous étudiant ?</ion-toggle>
         </ion-item>
       </ion-col>
       <ion-col size="12" size-md="6">
-        <ion-item fill="outline" lines="none" mode="android">
+        <ion-item fill="outline" lines="none">
           <ion-toggle [(ngModel)]="updatedStudent.isWorker">Êtes vous employé ?</ion-toggle>
         </ion-item>
       </ion-col>
@@ -94,7 +90,7 @@
     <ion-row *ngIf="updatedStudent.isStudent">
       <ion-col size="12" size-md="6">
         <ion-select [required]="updatedStudent.isStudent" [(ngModel)]="updatedStudent.formation"
-                    label="Formation" label-placement="stacked" mode="android"
+                    label="Formation" label-placement="stacked"
                     placeholder="Votre formation actuel" fill="outline" interface="alert">
           <ion-select-option *ngFor="let formation of studentService.enumIterator(Formation)"
                              [value]="formation">{{ formation }}
@@ -103,7 +99,7 @@
       </ion-col>
       <ion-col size="12" size-md="6">
         <ion-select [required]="updatedStudent.isStudent" [(ngModel)]="updatedStudent.graduation"
-                    label="Diplôme Préparer" label-placement="stacked" mode="android"
+                    label="Diplôme Préparer" label-placement="stacked"
                     placeholder="Votre diplôme préparer" fill="outline" interface="popover">
           <ion-select-option *ngFor="let graduation of studentService.enumIterator(Graduation)"
                              [value]="graduation.toUpperCase()">{{ graduation.toUpperCase() }}
@@ -115,7 +111,6 @@
       <ion-col>
         <ion-input
           required="true"
-          mode="android"
           [(ngModel)]="updatedStudent.email"
           fill="outline"
           label="Adresse Email"
@@ -128,7 +123,6 @@
       <ion-col>
         <ion-input
           required="true"
-          mode="android"
           [(ngModel)]="updatedStudent.password"
           fill="outline"
           label="Mot de Passe"
@@ -141,7 +135,6 @@
       <ion-col>
         <ion-input
           required="true"
-          mode="android"
           [(ngModel)]="confirmPassword"
           fill="outline"
           label="Vérification Mot de Passe"
@@ -152,10 +145,10 @@
     </ion-row>
     <ion-row class="ion-justify-content-center">
       <ion-col size="12" size-md="6" *ngIf="role === 'ADMIN'">
-        <ion-button mode="android" (click)="cancel()" color="light">Annuler</ion-button>
+        <ion-button (click)="cancel()" color="light">Annuler</ion-button>
       </ion-col>
       <ion-col size="12" [sizeMd]="role === 'ADMIN' ? '6' : '12'">
-        <ion-button mode="android" (click)="saveChanges()" color="primary">Enregistrer</ion-button>
+        <ion-button (click)="saveChanges()" color="primary">Enregistrer</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

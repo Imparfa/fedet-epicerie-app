@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {IonicModule} from "@ionic/angular";
+import {Component} from '@angular/core';
+import {IonicModule, ViewWillEnter} from "@ionic/angular";
 import {Visit} from "../../../models/visit";
 import {ManagementService} from "../../../services/management.service";
 import {DatePipe, NgForOf, NgIf} from "@angular/common";
@@ -17,7 +17,7 @@ import {FormsModule} from "@angular/forms";
     NgIf
   ]
 })
-export class VisitsPage implements OnInit {
+export class VisitsPage implements ViewWillEnter {
   visits: Visit[] = [];
   searchQuery: string = '';
 
@@ -29,7 +29,7 @@ export class VisitsPage implements OnInit {
   constructor(private managementService: ManagementService) {
   }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.loadMoreVisits();
   }
 
@@ -54,7 +54,7 @@ export class VisitsPage implements OnInit {
     const startDateStr = format(start);
     const endDateStr = format(end);
 
-    this.managementService.getVisits(startDateStr, endDateStr).subscribe({
+    this.managementService.getVisits(null, startDateStr, endDateStr).subscribe({
       next: (data) => {
         if (data.length === 0) {
           this.allLoaded = true;

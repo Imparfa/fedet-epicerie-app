@@ -12,7 +12,8 @@ const routes: Routes = [
     canActivate: [AuthenticationGuard],
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
-  { path: '', redirectTo: 'authentication', pathMatch: 'full' }
+  {path: '', redirectTo: 'authentication', pathMatch: 'full'},
+
 
 ];
 

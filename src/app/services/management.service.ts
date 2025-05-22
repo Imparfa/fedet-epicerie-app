@@ -16,7 +16,11 @@ export class ManagementService {
   }
 
   getStats(): Observable<Stats> {
-    return this.http.get<Stats>(`${this.apiUrl}/management/stats`);
+    return this.http.get<Stats>(`${this.apiUrl}/management/stats`).pipe(
+      tap((response) => {
+        console.log('DEBUG_INFO: Received response for Stats request: ', JSON.stringify(response));
+      })
+    );
   }
 
   getDistributions(): Observable<Distribution[]> {
@@ -29,7 +33,8 @@ export class ManagementService {
 
   updateDistribution(id: string, data: Partial<Distribution>): Observable<Distribution> {
     console.log('DEBUG_INFO: Request Distribution Update for: ', JSON.stringify(data));
-    return this.http.patch<Distribution>(`${this.apiUrl}/management/distributions/${id}`, data).pipe(
+    return this.http.patch<Distribution>(`${this.apiUrl}/management/distributions/${id}`, data)
+      .pipe(
       tap((response) => {
         console.log('DEBUG_INFO: Received response for Distribution Update request: ', JSON.stringify(response));
       })
@@ -61,9 +66,9 @@ export class ManagementService {
     return this.http.patch<Student>(this.apiUrl + '/student/profile?email=' + email, updatedStudent);
   }
 
-  getVisits(startDate: string | null, endDate: string | null): Observable<Visit[]> {
-    console.log('DEBUG_INFO: Request Visit listing for: Start=', startDate, ' End=', endDate);
-    return this.http.get<Visit[]>(`${this.apiUrl}/management/visits` + (startDate && endDate ? ('?startDate=' + startDate + '&endDate=' + endDate) : '')).pipe(
+  getVisits(email: string | null, startDate: string | null, endDate: string | null): Observable<Visit[]> {
+    console.log('DEBUG_INFO: Request Visit listing for: Start=', startDate, ' End=', endDate, email ? ' for student: ' + email : '');
+    return this.http.get<Visit[]>(`${this.apiUrl}/management/visits` + (email ? '?email=' + email : '') + (startDate && endDate ? ((email ? '&startDate=' : '?startDate=') + startDate + '&endDate=' + endDate) : '')).pipe(
       tap((response) => {
         console.log('DEBUG_INFO: Received response for Visit listing request: ', JSON.stringify(response));
       })

@@ -2,19 +2,24 @@
   <ion-grid class="">
     <ion-row class="">
       <ion-col size="12" size-sm="6" size-md="6" class="ion-justify-content-center">
-        <ion-img src="assets/logo-fedet.png"></ion-img>
+        <ion-img class="logo" src="assets/logo-fedet.png"></ion-img>
       </ion-col>
       <ion-col size="12" size-sm="6" size-md="6" class="connection-buttons">
-        <ion-button id="open-login" expand="block">{{ "Se Connecter".toUpperCase() }}</ion-button>
+        <ion-button id="open-login" expand="block" shape="round" fill="outline"
+                    size="large">{{ "Se Connecter".toUpperCase() }}
+        </ion-button>
         <ion-modal #loginModal trigger="open-login" class="auth-modal">
           <ng-template>
-            <app-login-modal [loginFunction]="login.bind(this)" [loginModal]="loginModal"></app-login-modal>
+            <app-login-modal [loginFunction]="login.bind(this)" [loginModal]="loginModal"
+                             [switchFunction]="switchMode.bind(this)"></app-login-modal>
           </ng-template>
         </ion-modal>
-        <ion-button id="open-register" expand="block">{{ "Créer un Compte".toUpperCase() }}</ion-button>
+        <ion-button id="open-register" expand="block" shape="round" size="large">{{ "Créer un Compte".toUpperCase() }}
+        </ion-button>
         <ion-modal #registerModal trigger="open-register" class="auth-modal">
           <ng-template>
-            <app-register-modal [registerFunction]="register.bind(this)" [registerModal]="registerModal"></app-register-modal>
+            <app-register-modal [registerFunction]="register.bind(this)" [registerModal]="registerModal"
+                                [switchFunction]="switchMode.bind(this)"></app-register-modal>
           </ng-template>
         </ion-modal>
       </ion-col>

@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {IonicModule, ToastController} from "@ionic/angular";
+import {Component} from '@angular/core';
+import {IonicModule, ViewWillEnter} from "@ionic/angular";
 import {CollectService} from "../../../services/collect.service";
 import {ManagementService} from "../../../services/management.service";
 import {FormsModule} from "@angular/forms";
@@ -7,6 +7,7 @@ import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {Distribution} from "../../../models/distribution";
 import {Student} from "../../../models/student";
 import {BarcodeScanner} from '@capacitor-mlkit/barcode-scanning';
+import {DeviceService} from "../../../services/device.service";
 
 @Component({
   selector: 'app-cash-register',
@@ -20,20 +21,25 @@ import {BarcodeScanner} from '@capacitor-mlkit/barcode-scanning';
     DatePipe
   ]
 })
-export class CashRegisterPage implements OnInit {
+export class CashRegisterPage implements ViewWillEnter {
   distributions: Distribution[] = [];
 
   scannedStudent: Student | null = null;
   paymentMethod: 'CASH' | 'CARD' = 'CASH';
 
-  constructor(public collectService: CollectService, private toastCtrl: ToastController,
+  constructor(public collectService: CollectService, private deviceService: DeviceService,
               private managementService: ManagementService) {
   }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.managementService.getDistributions().subscribe({
       next: (res) => this.distributions = res.filter(d => d.isActive),
       error: (err) => console.error(err),
+    }).add(() => {
+      if (!this.collectService.isSupported) {
+        this.open();
+        this.selectDistribution(this.distributions[0]);
+      }
     });
   }
 
@@ -63,26 +69,26 @@ export class CashRegisterPage implements OnInit {
         this.collectService.scanStudent(id).subscribe({
           next: (student) => {
             this.scannedStudent = student;
-            this.showToast('Étudiant trouvé', 'success', 'checkmark-circle');
+            this.deviceService.showToast('Étudiant trouvé', 'success', 'checkmark-circle');
           },
         });
         return;
       }
       const granted = await this.requestPermissions();
       if (!granted) {
-        await this.showToast('Permission caméra refusée', 'danger', 'alert-circle');
+        await this.deviceService.showToast('Permission caméra refusée', 'danger', 'alert-circle');
         return;
       }
       const {barcodes} = await BarcodeScanner.scan();
       this.collectService.scanStudent(id ? id : barcodes[0].rawValue).subscribe({
         next: (student) => {
           this.scannedStudent = student;
-          this.showToast('Étudiant trouvé', 'success', 'checkmark-circle');
+          this.deviceService.showToast('Étudiant trouvé', 'success', 'checkmark-circle');
         },
-        error: () => this.showToast('Étudiant introuvable', 'danger', 'alert-circle'),
+        error: () => this.deviceService.showToast('Étudiant introuvable', 'danger', 'alert-circle'),
       });
     } catch (error) {
-      await this.showToast('Erreur lors du scan', 'danger', 'alert-circle');
+      await this.deviceService.showToast('Erreur lors du scan', 'danger', 'alert-circle');
       console.error('[MLKit Scan Error] ', error);
     }
   }
@@ -96,28 +102,17 @@ export class CashRegisterPage implements OnInit {
       paymentMethod: this.paymentMethod,
     }).subscribe({
       next: () => {
-        this.showToast('Visite validée', 'success', 'checkmark-done-circle');
+        this.deviceService.showToast('Visite validée', 'success', 'checkmark-done-circle');
         this.scannedStudent = null;
       },
       error: (err) => {
         if (err.status === 409) {
-          this.showToast('Déjà passé aujourd’hui', 'warning', 'warning');
+          this.deviceService.showToast('Déjà passé aujourd’hui', 'warning', 'warning');
         } else {
-          this.showToast('Erreur serveur', 'danger', 'alert-circle');
+          this.deviceService.showToast('Erreur serveur', 'danger', 'alert-circle');
         }
       }
     });
-  }
-
-  async showToast(message: string, color: string, icon: string) {
-    const toast = await this.toastCtrl.create({
-      message,
-      duration: 2500,
-      color,
-      icon,
-      position: "top",
-    });
-    await toast.present();
   }
 
   close() {

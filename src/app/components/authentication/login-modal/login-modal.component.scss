@@ -1,5 +1,30 @@
+ion-header {
+  background: var(--ion-color-primary);
+  color: #ffffff;
+
+  ion-title {
+    font-size: 0.9em !important;
+    padding-inline: 8%;
+    //padding-top: 10%;
+  }
+
+  ion-text {
+    p {
+      padding-bottom: 8%;
+      padding-inline: 8%;
+      margin: 0;
+    }
+  }
+}
+
 ion-toolbar {
   --color: #ffffff;
+  padding-inline: 10px;
+  //padding-top: 0 !important;
+
+  ion-title {
+    font-size: 0.2em;
+  }
 }
 
 .cancel {
@@ -8,23 +33,38 @@ ion-toolbar {
 }
 
 ion-content {
-  --background: #ffffff;
   --color: #000000;
-  height: 91% !important;
+  //height: 100% !important;
+  --padding-top: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-bottom: 0;
+  overflow: hidden;
+  //z-index: 999;
 }
 
 ion-grid {
+  overflow: hidden;
+  background: #ffffff;
   display: flex;
   flex-direction: column;
-  width: 60%;
-  height: 100% !important;
-  justify-content: center;
+  width: 100% !important;
+  height: 100%;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  padding-inline: 5%;
+  padding-top: 3%;
+}
+
+ion-row {
+  height: 50%;
+  justify-content: start;
 }
 
 ion-col {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
 }
 
 ion-input, ion-item, .item-native {
@@ -32,8 +72,12 @@ ion-input, ion-item, .item-native {
   min-height: 45px !important;
   --height: 45px !important;
   --min-height: 45px !important;
-  --background: #ffffff;
-  --color: #000000;
+  --background: rgba(0, 0, 0, 0);
+  --color: black;
+}
+
+ion-button {
+  font-size: 0.9em;
 }
 
 .forgot-password {
@@ -43,7 +87,17 @@ ion-input, ion-item, .item-native {
 }
 
 @media (max-width: 575.5px) {
+  ion-toolbar {
+    //padding-bottom: 40% !important;
+  }
   ion-grid {
     width: 100%;
+    padding-top: 20%;
+    height: 80% !important;
+
+    ion-row {
+      height: 30%;
+      justify-content: start;
+    }
   }
 }

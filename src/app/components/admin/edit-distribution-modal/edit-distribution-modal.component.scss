@@ -1,7 +1,7 @@
 ion-content {
   --background: white;
   --color: black;
-  //height: 100% !important;
+  //height: 85% !important;
 }
 
 .cancel {
@@ -10,14 +10,15 @@ ion-content {
 }
 
 ion-grid {
+  height: 100%;
   padding-left: 0;
+  overflow: auto;
 }
 
 ion-col {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  overflow: scroll;
 }
 
 ion-item {
@@ -57,7 +58,7 @@ ion-toggle.toggle-checked::part(track) {
 
 @media (max-width: 575.5px) {
   ion-content {
-    height: 91% !important;
+    //height: 91% !important;
   }
   ion-grid {
     overflow-y: scroll;

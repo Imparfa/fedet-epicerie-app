@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header id="anchor">
   <ion-toolbar id="pageHeader" color="primary">
     <ion-title
       style="position: absolute; height: 100%; width: 100%; top: 0; text-align: center; font-weight: bold; font-size: 1.3em">
@@ -8,12 +8,6 @@
       <ion-button id="open-edit-profile" class="ion-no-padding" fill="clear" size="large">
         <ion-icon slot="icon-only" name="create"></ion-icon>
       </ion-button>
-      <ion-modal #editProfileModal mode="android" trigger="open-edit-profile" class="edit-profile-modal">
-        <ng-template>
-          <app-edit-profile-modal [editProfileModal]="editProfileModal" [student]="student"
-                                  role="STUDENT"></app-edit-profile-modal>
-        </ng-template>
-      </ion-modal>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -45,4 +39,10 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+  <ion-modal #editProfileModal trigger="open-edit-profile" class="edit-profile-modal">
+    <ng-template>
+      <app-edit-profile-modal [editProfileModal]="editProfileModal" [student]="student"
+                              role="STUDENT"></app-edit-profile-modal>
+    </ng-template>
+  </ion-modal>
 </ion-content>

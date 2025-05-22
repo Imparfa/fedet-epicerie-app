@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input} from '@angular/core';
 import {Student} from '../../../models/student';
 import {StudentService} from '../../../services/student.service';
 import {IonicModule, IonModal} from '@ionic/angular';
@@ -19,7 +19,7 @@ import {Formation} from "../../../models/formation";
     NgForOf
   ]
 })
-export class EditProfileModalComponent implements OnInit {
+export class EditProfileModalComponent implements AfterViewInit {
   @Input() editProfileModal: IonModal | undefined;
   @Input() student: Student | null = null;
   @Input() role: string = "UNDEFINED"
@@ -57,15 +57,11 @@ export class EditProfileModalComponent implements OnInit {
   protected readonly Graduation = Graduation;
   protected readonly Formation = Formation;
 
-  ngOnInit(): void {
-    this.updatedStudent.firstname = this.student?.firstname;
-    this.updatedStudent.lastname = this.student?.lastname;
-    this.updatedStudent.birthdate = this.student?.birthdate;
-    this.updatedStudent.email = this.student?.email;
-    this.updatedStudent.formation = this.student?.formation;
-    this.updatedStudent.graduation = this.student?.graduation;
-    this.updatedStudent.isStudent = this.student?.isStudent;
-    this.updatedStudent.isWorker = this.student?.isWorker;
-    this.updatedStudent.household = this.student?.household;
+  ngAfterViewInit(): void {
+    if (this.student) {
+      this.updatedStudent = {
+        ...this.student,
+      };
+    }
   }
 }

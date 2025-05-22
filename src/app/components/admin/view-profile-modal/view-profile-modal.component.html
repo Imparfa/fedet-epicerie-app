@@ -1,0 +1,53 @@
+<ion-header id="anchor" class="ion-no-border">
+  <ion-toolbar id="pageHeader" mode="ios" color="primary">
+    <ion-title>Profil
+      de {{ student?.firstname }}
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="ion-no-padding" (click)="cancel()" fill="clear" size="large">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row class="ion-justify-content-around">
+      <ion-col size="12" size-sm="6">
+        <ion-text>
+          <ion-title>{{ student?.firstname }} {{ student?.lastname }}</ion-title>
+          {{ getAge() }} ans
+        </ion-text>
+        <ion-text>Date de Naissance: {{ student?.birthdate | date:'dd/MM/yyyy' }}</ion-text>
+        <ion-text>Email: {{ student?.email }}</ion-text>
+        <ion-text>
+          Étudiant: <a [style.color]="student?.isStudent?'lightgreen':'red'"
+                       style="font-weight: bold">{{ student?.isStudent ? 'OUI' : 'NON' }}</a>
+        </ion-text>
+        <ion-text *ngIf="student?.isStudent">
+          Niveau: {{ student?.graduation?.toString()?.toUpperCase() }}
+        </ion-text>
+        <ion-text *ngIf="student?.isStudent">
+          Formation: {{ student?.formation }}
+        </ion-text>
+        <ion-text>Membres du Foyer: {{ student?.household }}</ion-text>
+      </ion-col>
+      <ion-col id="info" size="12" size-sm="6">
+        <ion-title style="text-decoration: underline">Historique</ion-title>
+        <ion-list>
+          <ion-item *ngFor="let visit of visits">
+            <ion-label>
+              <h2>📅 {{ visit.visitDate | date:'dd/MM/YYYY' }}</h2>
+              <p>📍 {{ visit.distribution.name }} | 💳 {{ visit.paymentMethod }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item *ngIf="visits.length === 0">
+            <ion-label>
+              <h2>Aucune visites enregistrée pour l'étudiant</h2>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

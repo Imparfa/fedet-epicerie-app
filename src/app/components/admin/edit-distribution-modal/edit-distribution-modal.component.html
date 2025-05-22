@@ -1,0 +1,59 @@
+<ion-header id="anchor" class="ion-no-border">
+  <ion-toolbar id="pageHeader" mode="ios" color="primary">
+    <ion-title *ngIf="distribution !== null">Modifier la Distribution
+      de {{ distribution.name }}
+    </ion-title>
+    <ion-title *ngIf="distribution === null">Créer une Distribution</ion-title>
+    <ion-buttons *ngIf="distribution === null" slot="end">
+      <ion-button class="ion-no-padding" (click)="cancel()" fill="clear" size="large">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-md="6">
+        <ion-input
+          required="true"
+          [(ngModel)]="updatedDistribution.name"
+          fill="outline"
+          label="Ville"
+          labelPlacement="stacked"
+          type="text"
+          placeholder="Ville du Point de Distribution"></ion-input>
+      </ion-col>
+      <ion-col size="12" size-md="6">
+        <ion-item fill="outline" lines="none">
+          <ion-toggle [(ngModel)]="updatedDistribution.isActive">La distribution est-elle active ?</ion-toggle>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+      <ion-col>
+        <ion-input
+          required="true"
+          [(ngModel)]="updatedDistribution.address"
+          fill="outline"
+          label="Adresse"
+          labelPlacement="stacked"
+          type="email"
+          placeholder="Entrez l'adresse du point de distribution"></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" size-md="6" *ngIf="distribution !== null">
+        <ion-button (click)="cancel()" color="light">Annuler</ion-button>
+      </ion-col>
+      <ion-col size="12" [sizeMd]="distribution !== null ? '6' : '12'">
+        <ion-button (click)="saveChanges()" color="primary">Enregistrer</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center" *ngIf="distribution !== null">
+      <ion-col size="12" size-md="12">
+        <ion-button (click)="deleteDistribution(distribution.id)" color="danger">Supprimer</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

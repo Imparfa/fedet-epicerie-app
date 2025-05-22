@@ -1,9 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {IonicModule} from "@ionic/angular";
+import {Component, ViewChild} from '@angular/core';
+import {IonicModule, IonModal, ViewWillEnter} from "@ionic/angular";
 import {ManagementService} from "../../../services/management.service";
 import {Distribution} from "../../../models/distribution";
 import {FormsModule} from "@angular/forms";
 import {NgForOf} from "@angular/common";
+import {
+  EditDistributionModalComponent
+} from "../../../components/admin/edit-distribution-modal/edit-distribution-modal.component";
 
 @Component({
   selector: 'app-distributions',
@@ -12,17 +15,20 @@ import {NgForOf} from "@angular/common";
   imports: [
     IonicModule,
     FormsModule,
-    NgForOf
+    NgForOf,
+    EditDistributionModalComponent
   ]
 })
-export class DistributionsPage implements OnInit {
+export class DistributionsPage implements ViewWillEnter {
+  @ViewChild("editDistributionModal") editDistributionModal: IonModal | undefined;
   distributions: Distribution[] = [];
-  newDistributionName: string = '';
+  selectedDistribution: Distribution | null = null;
+  searchQuery: string = '';
 
   constructor(private managementService: ManagementService) {
   }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.loadDistributions();
   }
 
@@ -33,22 +39,21 @@ export class DistributionsPage implements OnInit {
     });
   }
 
-  updateDistribution(distribution: Distribution) {
-    this.managementService.updateDistribution(distribution.id, distribution).subscribe(this.loadDistributions);
-  }
-
-  deleteDistribution(id: string) {
-    this.managementService.deleteDistribution(id).subscribe(() => {
-      this.distributions = this.distributions.filter(p => p.id !== id);
-    });
+  selectDistribution(distribution: Distribution) {
+    this.selectedDistribution = distribution;
+    this.editDistributionModal?.present();
   }
 
   createDistribution() {
-    const name = this.newDistributionName.trim();
-    if (!name) return;
-    this.managementService.createDistribution({name, isActive: true}).subscribe((created) => {
-      this.distributions.unshift(created);
-      this.newDistributionName = '';
-    });
+    this.selectedDistribution = null;
+    this.editDistributionModal?.present();
+  }
+
+  filterDistributions(): Distribution[] {
+    const query = this.searchQuery.toLowerCase();
+    return this.distributions.filter(d =>
+      d.name?.toLowerCase().includes(query) ||
+      d.address?.toLowerCase().includes(query)
+    );
   }
 }

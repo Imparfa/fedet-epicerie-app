@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header id="anchor">
   <ion-toolbar id="pageHeader" mode="ios" color="primary">
     <ion-title *ngIf="!collectService.selectedDistribution">Caisse Enregistreuse</ion-title>
 
@@ -13,7 +13,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content #opening *ngIf="!collectService.isOpen || !collectService.selectedDistribution" [fullscreen]="true">
+<ion-content #opening *ngIf="!collectService.isOpen || !collectService.selectedDistribution">
   <ion-grid>
     <ion-row class="ion-justify-content-around">
       <ng-container *ngIf="!collectService.isOpen">
@@ -36,10 +36,10 @@
     </ion-row>
   </ion-grid>
 </ion-content>
-<ion-content #scanner *ngIf="collectService.isOpen && collectService.selectedDistribution" [fullscreen]="true">
-  <ng-container *ngIf="scannedStudent" class="student-display">
+<ion-content #scanner *ngIf="collectService.isOpen && collectService.selectedDistribution">
+  <ng-container *ngIf="scannedStudent">
     <section>
-      <ion-card>
+      <ion-card class="student-information">
         <ion-card-header>
           <ion-card-title
             class="ion-text-center">{{ scannedStudent.firstname }} {{ scannedStudent.lastname.toUpperCase() }}
@@ -82,19 +82,21 @@
           <ion-segment mode="ios" color="primary" value="CASH"
                        (ionChange)="selectPaymentMethod($event.detail.value === 'CASH' ? 'CASH' : 'CARD')">
             <ion-segment-button value="CASH">
+              <ion-label>Liquide</ion-label>
               <ion-icon name="cash"></ion-icon>
             </ion-segment-button>
             <ion-segment-button value="CARD">
+              <ion-label>Carte</ion-label>
               <ion-icon name="card"></ion-icon>
             </ion-segment-button>
           </ion-segment>
-          <ion-button expand="block" color="success" (click)="validate()">Valider le passage</ion-button>
+          <ion-button shape="round" expand="block" color="success" (click)="validate()">Valider le passage</ion-button>
         </ion-card-content>
       </ion-card>
     </section>
   </ng-container>
   <ng-container *ngIf="!scannedStudent">
-    <section class="student-display">
+    <section class="no-student">
       <ion-card>
         <ion-card-header>
           <ion-card-title class="ion-text-center">Scannez un QR Code Etudiant pour commencer</ion-card-title>

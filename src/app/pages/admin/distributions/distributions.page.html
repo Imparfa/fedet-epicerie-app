@@ -1,27 +1,35 @@
-<ion-header>
+<ion-header id="anchor">
   <ion-toolbar id="pageHeader" mode="ios" color="primary">
     <ion-title>Gestion des distributions</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="createDistribution()" class="ion-no-padding" fill="clear" size="large">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
-  <ion-item>
-    <ion-label position="floating">Nouveau distribution</ion-label>
-    <ion-input [(ngModel)]="newDistributionName"></ion-input>
-  </ion-item>
-  <ion-button expand="block" (click)="createDistribution()">Ajouter</ion-button>
+<ion-content class="ion-padding">
+  <ion-searchbar [(ngModel)]="searchQuery" placeholder="Rechercher par nom"></ion-searchbar>
 
   <ion-list>
-    <ion-item *ngFor="let distribution of distributions">
+    <ion-item *ngFor="let distribution of filterDistributions()">
       <ion-label>
         <h2>{{ distribution.name }}</h2>
         <p>Status : {{ distribution.isActive ? 'Actif' : 'Inactif' }}</p>
       </ion-label>
-      <ion-toggle slot="end" [(ngModel)]="distribution.isActive"
-                  (ionChange)="updateDistribution(distribution)"></ion-toggle>
-      <ion-button color="danger" slot="end" fill="clear" (click)="deleteDistribution(distribution.id)">
-        Supprimer
-      </ion-button>
+      <ion-buttons slot="end" (click)="selectDistribution(distribution)">
+        <ion-button class="ion-no-padding" fill="clear" size="large">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-button>
+      </ion-buttons>
     </ion-item>
   </ion-list>
+  <ion-modal #editDistributionModal>
+    <ng-template>
+      <app-edit-distribution-modal [loadFunction]="loadDistributions.bind(this)"
+                                   [editDistributionModal]="editDistributionModal"
+                                   [distribution]="selectedDistribution"></app-edit-distribution-modal>
+    </ng-template>
+  </ion-modal>
 </ion-content>

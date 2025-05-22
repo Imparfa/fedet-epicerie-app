@@ -1,15 +1,20 @@
-<ion-header>
+<ion-header id="anchor">
   <ion-toolbar id="pageHeader" mode="ios" color="primary">
     <ion-title>Liste des étudiants</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="createStudent()" class="ion-no-padding" fill="clear" size="large">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content class="ion-padding">
   <ion-searchbar [(ngModel)]="searchQuery" (ionInput)="onSearchChange()"
                  placeholder="Rechercher un étudiant"></ion-searchbar>
   <ion-list>
     <ion-item *ngFor="let student of filterStudents()">
-      <ion-label>
+      <ion-label (click)="viewStudent(student)">
         <h2>{{ student.firstname }} {{ student.lastname }}</h2>
         <p>{{ student.email }}</p>
       </ion-label>
@@ -23,6 +28,18 @@
   <ion-infinite-scroll (ionInfinite)="loadMoreStudents($event)" threshold="100px" *ngIf="!allLoaded">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Chargement..."></ion-infinite-scroll-content>
   </ion-infinite-scroll>
+  <ion-modal #registerStudentModal class="register-student-modal">
+    <ng-template>
+      <app-register-modal [registerFunction]="registerStudent.bind(this)" [registerModal]="registerStudentModal"
+                          [isAdminRegistration]="true"></app-register-modal>
+    </ng-template>
+  </ion-modal>
+  <ion-modal #viewStudentModal class="view-student-modal">
+    <ng-template>
+      <app-view-profile-modal [viewProfileModal]="viewStudentModal"
+                              [student]="selectedStudent"></app-view-profile-modal>
+    </ng-template>
+  </ion-modal>
   <ion-modal #editStudentModal class="edit-student-modal">
     <ng-template>
       <app-edit-profile-modal [editProfileModal]="editStudentModal" [student]="selectedStudent"

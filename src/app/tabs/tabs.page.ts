@@ -1,6 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthenticationService} from "../services/authentication.service";
+import {ViewWillEnter} from "@ionic/angular";
+import {DeviceService} from "../services/device.service";
 
 @Component({
   selector: 'app-tabs',
@@ -8,23 +10,23 @@ import {AuthenticationService} from "../services/authentication.service";
   styleUrls: ['tabs.page.scss'],
   standalone: false,
 })
-export class TabsPage implements OnInit {
-  isStudent: boolean = true;
+export class TabsPage implements ViewWillEnter {
   public appTabs: any[] = [];
 
-  constructor(protected authService: AuthenticationService, private router: Router) {
+  constructor(protected authService: AuthenticationService, private router: Router, protected deviceService: DeviceService) {
   }
 
-  async ngOnInit() {
-    this.isStudent = !(await this.isAdmin());
-    if (!this.isStudent) {
+  async ionViewWillEnter() {
+    if (!this.authService.isStudent) {
       this.appTabs = [
         {title: 'Accueil', url: '/tabs/admin/dashboard', icon: 'stats-chart'},
         {title: 'Distributions', url: '/tabs/admin/distributions', icon: 'business'},
-        {title: 'Caisse', url: '/tabs/admin/cash-register', icon: 'cash'},
-        {title: 'Adhérants', url: '/tabs/admin/students', icon: 'people'},
-        {title: 'Visites', url: '/tabs/admin/visits', icon: 'pricetags'}
       ];
+      if (this.deviceService.isPlatform('mobile')) {
+        this.appTabs.push({title: 'Caisse', url: '/tabs/admin/cash-register', icon: 'wallet'});
+      }
+      this.appTabs.push({title: 'Adhérants', url: '/tabs/admin/students', icon: 'people'},
+        {title: 'Visites', url: '/tabs/admin/visits', icon: 'pricetags'})
     } else {
       this.appTabs = [
         { title: 'Profile', url: '/tabs/student/profile', icon: 'person' },
@@ -33,10 +35,5 @@ export class TabsPage implements OnInit {
       ];
     }
     await this.router.navigate([this.appTabs[0].url]);
-  }
-
-  async isAdmin() {
-    const role = await this.authService.getRole();
-    return role === 'ADMIN';
   }
 }

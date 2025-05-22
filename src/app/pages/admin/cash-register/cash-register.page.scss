@@ -45,12 +45,21 @@ ion-grid {
   }
 }
 
-.student-display {
+section {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 80%;
+  height: 93%;
+}
+
+.no-student {
+  height: 85%;
+}
+
+ion-card {
+  width: 90%;
+  border-radius: 15px;
 }
 
 ion-card-title {
@@ -63,9 +72,24 @@ ion-card-content {
   align-items: center;
 
   ion-segment {
-    //--background: #54dc98;
-    color: var(--ion-color-primary);
+    margin: 10px;
   }
+}
+
+ion-segment-button {
+  padding: 0.4em;
+}
+
+ion-segment-button::part(indicator-background) {
+  background: var(--ion-color-primary);
+}
+
+.segment-button-checked::part(native) {
+  color: #ffffff;
+}
+
+ion-segment-button::part(native) {
+  color: #000000;
 }
 
 ion-fab-button {

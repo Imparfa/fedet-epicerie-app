@@ -1,21 +1,27 @@
-<ion-header [translucent]="true" class="ion-no-border">
-  <ion-toolbar id="pageHeader" mode="ios" color="primary">
-    <ion-title>Créer un Compte</ion-title>
-    <ion-buttons slot="end">
+<ion-header id="anchor" [translucent]="true" class="ion-no-border">
+  <ion-toolbar id="pageHeader" color="primary" class="ion-no-border">
+    <ion-buttons slot="start">
       <ion-button class="ion-no-padding" (click)="cancel()" fill="clear" size="large">
-        <ion-icon slot="icon-only" name="close"></ion-icon>
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
+    <ion-title *ngIf="!isAdminRegistration" (click)="switchMode('login')" slot="end"
+               style="text-decoration: underline; cursor: pointer">Se Connecter
+    </ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content [fullscreen]="true">
+<ion-content color="primary" class="ion-padding ion-justify-content-center">
+  <ion-title [class]="isAdminRegistration?'ion-text-center':''" *ngIf="deviceService.isPlatform('mobile')"
+             style="padding-top: 12%; padding-bottom: 5%; font-size: 2em">Créer un Compte
+  </ion-title>
   <ion-grid>
-    <ion-row>
+    <ion-row class="ion-justify-content-center" *ngIf="isStep(0)">
       <ion-col size="12" size-md="6">
         <ion-input
           required="true"
           [(ngModel)]="registerStudent.firstname"
           fill="outline"
+          shape="round"
           label="Prénom"
           labelPlacement="stacked"
           type="text"
@@ -27,17 +33,19 @@
           [(ngModel)]="registerStudent.lastname"
           autocapitalize="on"
           fill="outline"
+          shape="round"
           label="Nom"
           labelPlacement="stacked"
           type="text"
           placeholder="Votre nom"></ion-input>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row class="ion-justify-content-center" *ngIf="isStep(1)">
       <ion-col size="12" size-md="6">
         <ion-input
           required="true"
           fill="outline"
+          shape="round"
           label="Date de Naissance"
           labelPlacement="stacked"
           type="date"
@@ -64,6 +72,7 @@
           required="true"
           [(ngModel)]="registerStudent.household"
           fill="outline"
+          shape="round"
           label="Population du Foyer"
           labelPlacement="stacked"
           type="number"
@@ -72,7 +81,7 @@
           placeholder="Nombre de membre du foyer"></ion-input>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row class="ion-justify-content-center" *ngIf="isStep(2)">
       <ion-col size="12" size-md="6">
         <ion-item fill="outline" lines="none">
           <ion-toggle [(ngModel)]="registerStudent.isStudent">Êtes vous étudiant ?</ion-toggle>
@@ -84,63 +93,86 @@
         </ion-item>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="registerStudent.isStudent">
-      <ion-col size="12" size-md="6">
+    <ion-row class="ion-justify-content-center" *ngIf="isStep(3)">
+      <ion-col size="12" size-md="6" *ngIf="registerStudent.isStudent">
         <ion-select [required]="registerStudent.isStudent" [(ngModel)]="registerStudent.formation"
-                    label="Formation" label-placement="stacked"
+                    label="Formation" label-placement="stacked" shape="round"
                     placeholder="Votre formation actuel" fill="outline" interface="alert">
           <ion-select-option *ngFor="let formation of studentService.enumIterator(Formation)"
-                             [value]="formation">{{formation}}</ion-select-option>
+                             [value]="formation">{{ formation }}
+          </ion-select-option>
         </ion-select>
       </ion-col>
-      <ion-col size="12" size-md="6">
+      <ion-col size="12" size-md="6" *ngIf="registerStudent.isStudent">
         <ion-select [required]="registerStudent.isStudent" [(ngModel)]="registerStudent.graduation"
-                    label="Diplôme Préparer" label-placement="stacked"
+                    label="Diplôme Préparer" label-placement="stacked" shape="round"
                     placeholder="Votre diplôme préparer" fill="outline" interface="popover">
           <ion-select-option *ngFor="let graduation of studentService.enumIterator(Graduation)"
-                             [value]="graduation.toUpperCase()">{{graduation.toUpperCase()}}</ion-select-option>
+                             [value]="graduation.toUpperCase()">{{ graduation.toUpperCase() }}
+          </ion-select-option>
         </ion-select>
       </ion-col>
     </ion-row>
-    <ion-row class="ion-justify-content-center">
-      <ion-col>
+    <ion-row class="ion-justify-content-center" style="height: 15% !important;" *ngIf="isStep(4)">
+      <ion-col size="12" size-md="12">
         <ion-input
           required="true"
           [(ngModel)]="registerStudent.email"
           fill="outline"
+          shape="round"
           label="Adresse Email"
           labelPlacement="stacked"
           type="email"
           placeholder="Entrez votre adresse email"></ion-input>
       </ion-col>
     </ion-row>
-    <ion-row class="ion-justify-content-center">
-      <ion-col>
+    <ion-row class="ion-justify-content-center" *ngIf="isStep(4)">
+      <ion-col size="12" size-md="6">
         <ion-input
           required="true"
           [(ngModel)]="registerStudent.password"
           fill="outline"
+          shape="round"
           label="Mot de Passe"
           labelPlacement="stacked"
-          type="password"
-          placeholder="Entrez votre mot de passe"></ion-input>
+          [type]="showPassword?'text':'password'"
+          placeholder="Entrez votre mot de passe">
+          <ion-button (click)="showPassword=!showPassword" fill="clear" slot="end" aria-label="Show/hide">
+            <ion-icon slot="icon-only" [name]="showPassword?'eye-off-outline':'eye-outline'"
+                      aria-hidden="true"></ion-icon>
+          </ion-button>
+        </ion-input>
       </ion-col>
-    </ion-row>
-    <ion-row class="ion-justify-content-center">
-      <ion-col>
+      <ion-col size="12" size-md="6">
         <ion-input
           required="true"
           [(ngModel)]="confirmPassword"
           fill="outline"
+          shape="round"
           label="Vérification Mot de Passe"
           labelPlacement="stacked"
-          type="password"
-          placeholder="Répétez votre mot de passe"></ion-input>
+          [type]="showConfirmPassword?'text':'password'"
+          placeholder="Répétez votre mot de passe">
+          <ion-button (click)="showConfirmPassword=!showConfirmPassword" fill="clear" slot="end" aria-label="Show/hide">
+            <ion-icon slot="icon-only" [name]="showConfirmPassword?'eye-off-outline':'eye-outline'"
+                      aria-hidden="true"></ion-icon>
+          </ion-button>
+        </ion-input>
       </ion-col>
     </ion-row>
     <ion-row class="ion-justify-content-center">
-      <ion-col>
-        <ion-button (click)="register()" color="primary">Inscription</ion-button>
+      <ion-col size="6" *ngIf="!isStep(0)" [class]="!isStep(4)?'ion-justify-content-center':''">
+        <ion-button (click)="previousStep()" color="primary" shape="round" size="large" expand="block" fill="outline">
+          Précédent
+        </ion-button>
+      </ion-col>
+      <ion-col [size]="isStep(0)? 12 : 6" *ngIf="!isStep(4)" class="ion-justify-content-center">
+        <ion-button (click)="nextStep()" color="primary" shape="round" size="large" expand="block">Suivant
+        </ion-button>
+      </ion-col>
+      <ion-col id="anchor" size="6" *ngIf="isStep(4)">
+        <ion-button (click)="register()" color="primary" shape="round" size="large" expand="block">Inscription
+        </ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

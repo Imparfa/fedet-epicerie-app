@@ -1,29 +1,73 @@
+ion-header {
+  background: var(--ion-color-primary);
+  color: #ffffff;
+
+  ion-title {
+    font-size: 0.9em !important;
+    padding-inline: 8%;
+    //padding-top: 10%;
+  }
+
+  ion-text {
+    p {
+      padding-bottom: 8%;
+      padding-inline: 8%;
+      margin: 0;
+    }
+  }
+}
+
+ion-toolbar {
+  --color: #ffffff;
+  padding-inline: 10px;
+  //padding-top: 0 !important;
+
+  ion-title {
+    font-size: 0.2em;
+  }
+}
+
 .cancel {
   font-size: 2em;
   cursor: pointer;
 }
 
 ion-content {
-  --background: white;
-  --color: black;
-  height: 85% !important;
+  --color: #000000;
+  //height: 100% !important;
+  --padding-top: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-bottom: 0;
+  overflow-y: scroll;
 }
 
 ion-grid {
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  width: 100% !important;
   height: 100%;
-  padding-left: 0;
-  overflow: auto;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  padding-inline: 5%;
+  padding-top: 3%;
+}
+
+ion-row {
+  height: 50%;
+  justify-content: start;
 }
 
 ion-col {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
 }
 
 ion-item {
   border: #0d0d0d solid 1px;
-  border-radius: 4px;
+  border-radius: 25px;
 }
 
 ion-input, ion-select, ion-item, .item-native {
@@ -56,12 +100,19 @@ ion-toggle.toggle-checked::part(track) {
   padding: 0 !important;
 }
 
+ion-button {
+  font-size: 0.9em;
+}
+
 @media (max-width: 575.5px) {
-  ion-content {
-    height: 91% !important;
-  }
   ion-grid {
-    overflow-y: scroll;
-    padding-left: 10px;
+    width: 100%;
+    padding-top: 20%;
+    height: 80% !important;
+
+    ion-row {
+      height: 30%;
+      justify-content: start;
+    }
   }
 }

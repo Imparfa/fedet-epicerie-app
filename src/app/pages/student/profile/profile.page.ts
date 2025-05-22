@@ -4,7 +4,6 @@ import {Student} from '../../../models/student';
 import {IonicModule, IonModal} from '@ionic/angular';
 import {EditProfileModalComponent} from '../../../components/student/edit-profile-modal/edit-profile-modal.component';
 import {DatePipe, NgIf} from "@angular/common";
-import {AuthenticationService} from "../../../services/authentication.service";
 
 @Component({
   selector: 'app-profile',
@@ -21,10 +20,7 @@ export class ProfilePage implements OnInit {
   @ViewChild("editProfileModal") editProfileModal: IonModal | undefined;
   student: Student | null = null;
 
-  constructor(private studentService: StudentService, private authService: AuthenticationService) {}
-
-  logout() {
-    this.authService.logout();
+  constructor(private studentService: StudentService) {
   }
 
   ngOnInit() {
