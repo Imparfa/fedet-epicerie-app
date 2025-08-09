@@ -13,17 +13,19 @@
   <ion-searchbar [(ngModel)]="searchQuery" placeholder="Rechercher par nom"></ion-searchbar>
 
   <ion-list>
-    <ion-item *ngFor="let distribution of filterDistributions()">
-      <ion-label>
-        <h2>{{ distribution.name }}</h2>
-        <p>Status : {{ distribution.isActive ? 'Actif' : 'Inactif' }}</p>
-      </ion-label>
-      <ion-buttons slot="end" (click)="selectDistribution(distribution)">
-        <ion-button class="ion-no-padding" fill="clear" size="large">
-          <ion-icon slot="icon-only" name="create"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-item>
+    <ion-card *ngFor="let distribution of filterDistributions()">
+      <ion-toolbar>
+        <ion-label>
+          <h2>{{ distribution.name }}</h2>
+          <p>Status : {{ distribution.isActive ? 'Actif' : 'Inactif' }}</p>
+        </ion-label>
+        <ion-buttons slot="end" (click)="selectDistribution(distribution)">
+          <ion-button class="ion-no-padding" fill="clear" size="large">
+            <ion-icon slot="icon-only" name="pencil-outline" color="primary"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-card>
   </ion-list>
   <ion-modal #editDistributionModal>
     <ng-template>

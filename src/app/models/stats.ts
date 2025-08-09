@@ -5,6 +5,7 @@ export interface Stats {
   cardPayments: number;
   cashPayments: number;
   totalDistributions: number;
+  totalFormations: number;
   visitsByDistribution: {
     name: string;
     count: number;

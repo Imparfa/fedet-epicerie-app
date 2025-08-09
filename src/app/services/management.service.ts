@@ -15,8 +15,8 @@ export class ManagementService {
   constructor(private http: HttpClient) {
   }
 
-  getStats(): Observable<Stats> {
-    return this.http.get<Stats>(`${this.apiUrl}/management/stats`).pipe(
+  getStats(selectedMonth?: string, selectedYear?: string): Observable<Stats> {
+    return this.http.get<Stats>(`${this.apiUrl}/management/stats` + ((selectedYear && selectedMonth) ? '?year=' + selectedYear + '&month=' + selectedMonth : '')).pipe(
       tap((response) => {
         console.log('DEBUG_INFO: Received response for Stats request: ', JSON.stringify(response));
       })

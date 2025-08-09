@@ -10,6 +10,15 @@ app-edit-profile-modal {
   height: 100% !important;
 }
 
-ion-item {
-  padding-right: 15px;
+ion-card {
+  --background: #f6f5fd;
+  margin-block: 15px;
+  padding-left: 15px;
+  padding-block: 10px;
+  border-radius: 10px;
+}
+
+ion-toolbar {
+  --background: rgba(0, 0, 0, 0);
+  align-content: center;
 }

@@ -8,14 +8,16 @@
   <ion-searchbar [(ngModel)]="searchQuery" placeholder="Rechercher par nom ou email"></ion-searchbar>
 
   <ion-list>
-    <ion-item *ngFor="let visit of filterVisits()">
-      <ion-label>
-        <h2>{{ visit.student.firstname }} {{ visit.student.lastname }}</h2>
-        <p>{{ visit.student.email }}</p>
-        <p>📅 {{ visit.visitDate | date:'dd/MM/YYYY' }} | 📍 {{ visit.distribution.name }} |
-          💳 {{ visit.paymentMethod }}</p>
-      </ion-label>
-    </ion-item>
+    <ion-card *ngFor="let visit of filterVisits()">
+      <ion-card-header>
+        <ion-card-subtitle>{{ visit.student.email }}</ion-card-subtitle>
+        <ion-card-title>{{ visit.student.firstname }} {{ visit.student.lastname }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        📅 {{ visit.visitDate | date:'dd/MM/YYYY' }} | 📍 {{ visit.distribution.name }} |
+        💳 {{ visit.paymentMethod }}
+      </ion-card-content>
+    </ion-card>
   </ion-list>
   <ion-infinite-scroll (ionInfinite)="loadMoreVisits($event)" threshold="100px" *ngIf="!allLoaded">
     <ion-infinite-scroll-content loadingText="Chargement..." loadingSpinner="bubbles"></ion-infinite-scroll-content>

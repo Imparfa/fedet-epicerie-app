@@ -13,17 +13,24 @@
   <ion-searchbar [(ngModel)]="searchQuery" (ionInput)="onSearchChange()"
                  placeholder="Rechercher un étudiant"></ion-searchbar>
   <ion-list>
-    <ion-item *ngFor="let student of filterStudents()">
-      <ion-label (click)="viewStudent(student)">
-        <h2>{{ student.firstname }} {{ student.lastname }}</h2>
-        <p>{{ student.email }}</p>
-      </ion-label>
-      <ion-buttons slot="end" (click)="selectStudent(student)">
-        <ion-button class="ion-no-padding" fill="clear" size="large">
-          <ion-icon slot="icon-only" name="create"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-item>
+    <ion-card *ngFor="let student of filterStudents()">
+      <ion-toolbar>
+        <ion-avatar slot="start">
+          <!--          <img *ngIf="student.profilePicture" [src]="student.profilePicture" alt="Profile Picture">-->
+          <!--          <ion-icon *ngIf="!student.profilePicture" name="person-circle-outline"></ion-icon>-->
+          <ion-icon color="primary" name="person-circle-outline" style="width: 80%; height: 100%"></ion-icon>
+        </ion-avatar>
+        <ion-label (click)="viewStudent(student)">
+          <h2>{{ student.firstname }} {{ student.lastname }}</h2>
+          <p>{{ student.email }}</p>
+        </ion-label>
+        <ion-buttons slot="end" (click)="selectStudent(student)">
+          <ion-button class="ion-no-padding" fill="clear" size="large">
+            <ion-icon color="primary" slot="icon-only" name="pencil-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-card>
   </ion-list>
   <ion-infinite-scroll (ionInfinite)="loadMoreStudents($event)" threshold="100px" *ngIf="!allLoaded">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Chargement..."></ion-infinite-scroll-content>

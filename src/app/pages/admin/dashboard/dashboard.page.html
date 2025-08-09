@@ -5,6 +5,35 @@
 </ion-header>
 
 <ion-content>
+  <div class="filters-container">
+    <ion-item lines="none">
+      <ion-text>
+        <h1 class="ion-no-margin">Trier par filtres:</h1>
+      </ion-text>
+      <ion-button *ngIf="selectedDistribution || selectedYear || selectedMonth" fill="outline" (click)="cleanFilters()"
+                  color="danger" style="margin-left: 5px">
+        <!--        <ion-icon slot="icon-only" color="danger" name="close-circle-outline"></ion-icon>-->
+        Réinitialiser
+        <ion-icon name="funnel-outline" color="danger"></ion-icon>
+      </ion-button>
+    </ion-item>
+    <div class="filter-scroll">
+      <ion-select [(ngModel)]="selectedDistribution" (ionChange)="onDistributionChange($event)" style="min-width: 150px"
+                  label="Distribution" interface="popover" label-placement="floating" fill="outline">
+        <ion-select-option *ngFor="let distribution of distributions" [value]="distribution">{{ distribution }}
+        </ion-select-option>
+      </ion-select>
+      <ion-select [(ngModel)]="selectedYear" (ionChange)="onYearChange($event)" label="Année"
+                  interface="popover" label-placement="floating" fill="outline">
+        <ion-select-option *ngFor="let year of years" [value]="year">{{ year }}</ion-select-option>
+      </ion-select>
+      <ion-select [(ngModel)]="selectedMonth" (ionChange)="onMonthChange($event)" label="Mois"
+                  interface="popover" aria-hidden="false" label-placement="floating" fill="outline">
+        <ion-select-option *ngFor="let month of months" [value]="month.value">{{ month.label }}
+        </ion-select-option>
+      </ion-select>
+    </div>
+  </div>
   <ion-grid>
     <ion-row>
       <ion-col size="6" size-md="6">
@@ -16,7 +45,7 @@
             </ion-toolbar>
           </ion-card-header>
           <ion-card-content>
-            <p>Visites d'Aujourd'hui</p>
+            <h3>Visites d'Aujourd'hui</h3>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -29,7 +58,7 @@
             </ion-toolbar>
           </ion-card-header>
           <ion-card-content>
-            <p>Adhérants Total</p>
+            <h3>Adhérants Total</h3>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -40,11 +69,11 @@
           <ion-card-header>
             <ion-toolbar>
               <ion-icon slot="start" name="bag-check-outline" size="large"></ion-icon>
+              <ion-text style="text-align: center"><h3>Visites Total</h3></ion-text>
               <ion-text slot="end"><h2>{{ stats.totalVisits }}</h2></ion-text>
             </ion-toolbar>
           </ion-card-header>
           <ion-card-content>
-            <p>Visites Total</p>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -57,7 +86,7 @@
             </ion-toolbar>
           </ion-card-header>
           <ion-card-content>
-            <p>Nombre de Paiements par Carte</p>
+            <h3>Paiements par Carte</h3>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -70,7 +99,7 @@
             </ion-toolbar>
           </ion-card-header>
           <ion-card-content>
-            <p>Paiements en Espèces</p>
+            <h3>Paiements en Espèces</h3>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -81,13 +110,15 @@
           <ion-card-header>
             <ion-toolbar>
               <ion-icon slot="start" name="business-outline" size="large"></ion-icon>
+              <ion-text style="text-align: center"><h3>Distributions</h3></ion-text>
               <ion-text slot="end"><h2>{{ stats.totalDistributions }}</h2></ion-text>
             </ion-toolbar>
           </ion-card-header>
           <ion-card-content>
-            <ion-text style="text-decoration: underline"><h2>Activitées des Distributions</h2></ion-text>
-            <ion-text *ngFor="let distribution of stats.visitsByDistribution"><h3>{{ distribution.name }}
-              - {{ distribution.count }}</h3></ion-text>
+            <ion-text *ngFor="let distribution of stats.visitsByDistribution">
+              <p>{{ distribution.name }}
+                - {{ distribution.count }}</p>
+            </ion-text>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -96,12 +127,14 @@
           <ion-card-header>
             <ion-toolbar>
               <ion-icon slot="start" name="library-outline" size="large"></ion-icon>
+              <ion-text style="text-align: center"><h3>Formations</h3></ion-text>
+              <ion-text slot="end"><h2>{{ stats.totalFormations }}</h2></ion-text>
             </ion-toolbar>
           </ion-card-header>
           <ion-card-content>
-            <ion-text style="text-decoration: underline"><h2>Formations les plus actives</h2></ion-text>
-            <ion-text *ngFor="let formation of stats.mostActiveFormations"><h3>{{ formation.name }}
-              - {{ formation.count }}</h3></ion-text>
+            <ion-text *ngFor="let formation of stats.mostActiveFormations">
+              <p>{{ formation.name }} - {{ formation.count }}</p>
+            </ion-text>
           </ion-card-content>
         </ion-card>
       </ion-col>
