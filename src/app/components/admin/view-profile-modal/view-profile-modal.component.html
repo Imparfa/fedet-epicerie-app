@@ -14,6 +14,14 @@
   <ion-grid>
     <ion-row class="ion-justify-content-around">
       <ion-col size="12" size-sm="6">
+        <ion-button id="open-approval-card" color="primary" shape="round" size="large" style="position: absolute; top: 0px; left: 5px">
+          <ion-icon slot="icon-only" name="id-card"></ion-icon>
+        </ion-button>
+        <ion-modal #approvalCardModal trigger="open-approval-card" class="auth-modal">
+          <ng-template>
+            <app-view-card-modal [viewCardModal]="approvalCardModal" [student]="student"></app-view-card-modal>
+          </ng-template>
+        </ion-modal>
         <ion-text>
           <ion-title>{{ student?.firstname }} {{ student?.lastname }}</ion-title>
           {{ getAge() }} ans

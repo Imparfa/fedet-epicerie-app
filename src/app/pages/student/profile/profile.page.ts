@@ -4,6 +4,7 @@ import {Student} from '../../../models/student';
 import {IonicModule, IonModal} from '@ionic/angular';
 import {EditProfileModalComponent} from '../../../components/student/edit-profile-modal/edit-profile-modal.component';
 import {DatePipe, NgIf} from "@angular/common";
+import {ViewCardModalComponent} from "../../../components/view-card-modal/view-card-modal.component";
 
 @Component({
   selector: 'app-profile',
@@ -13,11 +14,13 @@ import {DatePipe, NgIf} from "@angular/common";
     IonicModule,
     DatePipe,
     EditProfileModalComponent,
+    ViewCardModalComponent,
     NgIf
   ]
 })
 export class ProfilePage implements OnInit {
   @ViewChild("editProfileModal") editProfileModal: IonModal | undefined;
+  @ViewChild("viewCardModal") viewCardModal: IonModal | undefined;
   student: Student | null = null;
 
   constructor(private studentService: StudentService) {

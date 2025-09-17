@@ -1,0 +1,14 @@
+ion-content {
+  --background: white;
+  --color: black;
+  height: 93% !important;
+}
+
+ion-input {
+  height: 45px !important;
+  min-height: 45px !important;
+  --height: 45px !important;
+  --min-height: 45px !important;
+  --background: white !important;
+  --color: black !important;
+}

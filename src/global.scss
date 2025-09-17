@@ -40,17 +40,18 @@
 #pageHeader {
   ion-title {
     width: 100%;
-    padding-inline: 0;
+    padding-inline: 20px 0;
     font-size: 0.8em;
   }
 }
 
-.alert-radio-label, .alert-radio-icon {
+.alert-radio-label, .alert-radio-icon, ion-select {
   color: #0d0d0d !important;
 }
 
 .searchbar-input {
   padding-inline: 45px !important;
+  color: #0d0d0d !important;
 }
 
 .input-wrapper {

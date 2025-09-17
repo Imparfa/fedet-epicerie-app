@@ -1,9 +1,11 @@
-import {Component} from '@angular/core';
-import {IonicModule, ViewWillEnter} from "@ionic/angular";
+import {Component, ViewChild} from '@angular/core';
+import {IonicModule, IonModal, ViewWillEnter} from "@ionic/angular";
 import {Visit} from "../../../models/visit";
 import {ManagementService} from "../../../services/management.service";
 import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
+import {ViewProfileModalComponent} from "../../../components/admin/view-profile-modal/view-profile-modal.component";
+import {Student} from "../../../models/student";
 
 @Component({
   selector: 'app-visits',
@@ -14,15 +16,18 @@ import {FormsModule} from "@angular/forms";
     DatePipe,
     FormsModule,
     NgForOf,
-    NgIf
+    NgIf,
+    ViewProfileModalComponent
   ]
 })
 export class VisitsPage implements ViewWillEnter {
+  @ViewChild("viewStudentModal") viewStudentModal: IonModal | undefined;
   visits: Visit[] = [];
   searchQuery: string = '';
+  selectedStudent: Student | null = null;
 
   private startDate: Date = new Date(); // today
-  private dayWindow = 30; // fetch 30 days per scroll
+  private dayWindow = 240; // fetch 30 days per scroll
   private loading = false;
   protected allLoaded = false;
 
@@ -73,6 +78,11 @@ export class VisitsPage implements ViewWillEnter {
         if (event) event.target.complete();
       }
     });
+  }
+
+  viewStudent(student: Student) {
+    this.selectedStudent = student;
+    this.viewStudentModal?.present();
   }
 
   filterVisits(): Visit[] {

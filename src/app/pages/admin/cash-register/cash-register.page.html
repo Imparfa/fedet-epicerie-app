@@ -1,12 +1,12 @@
-<ion-header id="anchor">
+<ion-header>
   <ion-toolbar id="pageHeader" mode="ios" color="primary">
     <ion-title *ngIf="!collectService.selectedDistribution">Caisse Enregistreuse</ion-title>
 
     <ion-title *ngIf="collectService.isOpen && collectService.selectedDistribution" class="ion-text-center">
       Distribution de {{ collectService.selectedDistribution.name }}
     </ion-title>
-    <ion-buttons *ngIf="collectService.isOpen" slot="end">
-      <ion-button class="ion-no-padding" (click)="close()" fill="clear" size="large">
+    <ion-buttons id="anchor" slot="end">
+      <ion-button *ngIf="collectService.isOpen" class="ion-no-padding" (click)="close()" fill="clear" size="large">
         <ion-icon slot="icon-only" name="close"></ion-icon>
       </ion-button>
     </ion-buttons>

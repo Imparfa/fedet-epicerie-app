@@ -6,9 +6,11 @@
 
 <ion-content>
   <div class="filters-container">
-    <ion-item lines="none">
+    <ion-item lines="none" style="display: flex;">
       <ion-text>
-        <h1 class="ion-no-margin">Trier par filtres:</h1>
+        <h1 class="ion-no-margin">
+          Trier par filtres:
+        </h1>
       </ion-text>
       <ion-button *ngIf="selectedDistribution || selectedYear || selectedMonth" fill="outline" (click)="cleanFilters()"
                   color="danger" style="margin-left: 5px">
@@ -18,16 +20,16 @@
       </ion-button>
     </ion-item>
     <div class="filter-scroll">
-      <ion-select [(ngModel)]="selectedDistribution" (ionChange)="onDistributionChange($event)" style="min-width: 150px"
+      <ion-select [(ngModel)]="selectedDistribution" (ionChange)="onFilterChange()" style="min-width: 150px"
                   label="Distribution" interface="popover" label-placement="floating" fill="outline">
-        <ion-select-option *ngFor="let distribution of distributions" [value]="distribution">{{ distribution }}
+        <ion-select-option *ngFor="let distribution of distributions" [value]="distribution.id">{{ distribution.name }}
         </ion-select-option>
       </ion-select>
-      <ion-select [(ngModel)]="selectedYear" (ionChange)="onYearChange($event)" label="Année"
+      <ion-select [(ngModel)]="selectedYear" (ionChange)="onFilterChange()" label="Année"
                   interface="popover" label-placement="floating" fill="outline">
         <ion-select-option *ngFor="let year of years" [value]="year">{{ year }}</ion-select-option>
       </ion-select>
-      <ion-select [(ngModel)]="selectedMonth" (ionChange)="onMonthChange($event)" label="Mois"
+      <ion-select [(ngModel)]="selectedMonth" (ionChange)="onFilterChange()" label="Mois"
                   interface="popover" aria-hidden="false" label-placement="floating" fill="outline">
         <ion-select-option *ngFor="let month of months" [value]="month.value">{{ month.label }}
         </ion-select-option>

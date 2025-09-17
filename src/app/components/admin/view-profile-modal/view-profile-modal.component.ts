@@ -1,10 +1,11 @@
-import {AfterViewInit, Component, Input} from '@angular/core';
+import {AfterViewInit, Component, Input, ViewChild} from '@angular/core';
 import {IonicModule, IonModal} from "@ionic/angular";
 import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {ReactiveFormsModule} from "@angular/forms";
 import {ManagementService} from "../../../services/management.service";
 import {Student} from "../../../models/student";
 import {Visit} from "../../../models/visit";
+import {ViewCardModalComponent} from "../../view-card-modal/view-card-modal.component";
 
 @Component({
   selector: 'app-view-profile-modal',
@@ -15,12 +16,14 @@ import {Visit} from "../../../models/visit";
     ReactiveFormsModule,
     DatePipe,
     NgForOf,
-    NgIf
+    NgIf,
+    ViewCardModalComponent,
   ]
 })
 export class ViewProfileModalComponent implements AfterViewInit {
   @Input() viewProfileModal: IonModal | undefined;
   @Input() student: Student | null = null;
+  @ViewChild("approvalCardModal") approvalCardModal: IonModal | undefined;
   visits: Visit[] = [];
 
   constructor(private managementService: ManagementService) {
@@ -40,6 +43,8 @@ export class ViewProfileModalComponent implements AfterViewInit {
       });
     }
   }
+
+  viewCard() {}
 
   cancel() {
     this.viewProfileModal?.dismiss(null, 'cancel').then();

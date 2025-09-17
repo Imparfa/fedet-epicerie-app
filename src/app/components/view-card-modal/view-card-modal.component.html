@@ -1,0 +1,97 @@
+<ion-header id="anchor" class="ion-no-border">
+  <ion-toolbar id="pageHeader" mode="ios" color="primary">
+    <ion-title>
+      Ma Carte Étudiante
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="ion-no-padding" (click)="cancel()" fill="clear" size="large">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row class="ion-justify-content-around">
+      <ion-col size="12" size-sm="12" class="ion-text-center">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title class="ion-text-center" style="color: #0d0d0d">
+              {{ student?.firstname }} {{ student?.lastname }}
+            </ion-card-title>
+            <ion-card-subtitle *ngIf="!card" class="ion-text-center">
+              Aucune carte enregistrée
+            </ion-card-subtitle>
+            <ion-card-subtitle *ngIf="card && card.status === 'APPROVED'" class="ion-text-center">
+              Valable jusqu'au {{ card.validityDate ? (card.validityDate | date:'dd/MM/yyyy') : `ad vitam aeternam` }}
+            </ion-card-subtitle>
+            <ion-card-subtitle *ngIf="card && card.status === 'PENDING'" class="ion-text-center">
+              Carte en attente de validation par un Administrateur
+            </ion-card-subtitle>
+            <ion-card-subtitle *ngIf="card && card.status === 'REJECTED'" class="ion-text-center">
+              Carte refusé
+            </ion-card-subtitle>
+            <ion-card-subtitle *ngIf="isAdmin() && card && card.status === 'PENDING'"
+                               class="ion-justify-content-evenly">
+              <ion-input
+                fill="outline"
+                shape="round"
+                label="Date de Validité"
+                labelPlacement="stacked"
+                type="date"
+                inputmode="text"
+                [(ngModel)]="validityDate"
+                placeholder="Date d'Expiration de la Carte">
+              </ion-input>
+              <ion-item>
+                <ion-label position="stacked">Raison (optionnel)</ion-label>
+                <ion-textarea rows="3" [(ngModel)]="reason"></ion-textarea>
+              </ion-item>
+              <ion-button (click)="approve()" shape="round" color="success" fill="outline">
+                Valider
+              </ion-button>
+              <ion-button (click)="reject()" shape="round" color="danger">
+                Refuser
+              </ion-button>
+            </ion-card-subtitle>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12" size-sm="6" class="ion-text-center">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Recto *</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-img *ngIf="frontCardImage" [src]="frontCardImage" alt="Recto carte"
+                     class="student-card-image"></ion-img>
+          </ion-card-content>
+          <ion-card-header>
+            <input type="file" accept="image/*" (change)="onFrontSelected($event)"/>
+            <ion-button (click)="uploadCard('front')" [disabled]="!newFrontCardImage" expand="block" color="primary"
+                        class="ion-margin-top">
+              Envoyer le recto de ma carte
+            </ion-button>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12" size-sm="6" class="ion-text-center">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Verso (optionnel)</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-img *ngIf="backCardImage" [src]="backCardImage" alt="Verso carte" class="student-card-image"></ion-img>
+          </ion-card-content>
+          <ion-card-header>
+            <input type="file" accept="image/*" (change)="onBackSelected($event)"/>
+            <ion-button (click)="uploadCard('back')" [disabled]="!newBackCardImage" expand="block" color="primary"
+                        class="ion-margin-top">
+              Envoyer le verso de ma carte
+            </ion-button>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

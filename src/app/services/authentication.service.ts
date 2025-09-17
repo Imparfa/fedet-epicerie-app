@@ -10,7 +10,7 @@ import {Student} from "../models/student";
 })
 export class AuthenticationService {
   private authSubject = new BehaviorSubject<boolean>(false);
-  private apiUrl = 'https://fedet.truttmann.fr';
+  private apiUrl = 'http://fedet.truttmann.fr:8080';
   isStudent: boolean = true;
 
   constructor(
@@ -35,7 +35,7 @@ export class AuthenticationService {
     console.log('DEBUG_INFO: Request connexion for: ', JSON.stringify(credentials));
     return this.http.post(`${this.apiUrl}/auth/login`, credentials).pipe(
       tap(async (response: any) => {
-        console.log('DEBUG_INFO: Received response for connexion registration request: ', JSON.stringify(response));
+        console.log('DEBUG_INFO: Received response for connexion login request: ', JSON.stringify(response));
         await this.storageService.setToken(response.token);
         await this.storageService.setRole(response.role);
         this.authSubject.next(true);

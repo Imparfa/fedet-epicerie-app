@@ -9,7 +9,7 @@ import {Student} from '../models/student';
 export class StudentService {
   private studentSubject = new BehaviorSubject<Student | null>(null);
   public student$ = this.studentSubject.asObservable();
-  private apiUrl = 'https://fedet.truttmann.fr';
+  private apiUrl = 'http://fedet.truttmann.fr:8080';
 
   constructor(private http: HttpClient) {}
 

@@ -31,7 +31,7 @@ export class DashboardPage implements ViewWillEnter {
     mostActiveFormations: []
   };
 
-  distributions: string[] = [];
+  distributions: Distribution[] = [];
   years: string[] = [
     new Date().getFullYear().toString(),
     (new Date().getFullYear() - 1).toString(),
@@ -41,29 +41,33 @@ export class DashboardPage implements ViewWillEnter {
     (new Date().getFullYear() - 5).toString()
   ];
   months: { value: string, label: string }[] = [
-    {value: '01', label: 'Janvier'},
-    {value: '02', label: 'Février'},
-    {value: '03', label: 'Mars'},
-    {value: '04', label: 'Avril'},
-    {value: '05', label: 'Mai'},
-    {value: '06', label: 'Juin'},
-    {value: '07', label: 'Juillet'},
-    {value: '08', label: 'Août'},
-    {value: '09', label: 'Septembre'},
+    {value: '1', label: 'Janvier'},
+    {value: '2', label: 'Février'},
+    {value: '3', label: 'Mars'},
+    {value: '4', label: 'Avril'},
+    {value: '5', label: 'Mai'},
+    {value: '6', label: 'Juin'},
+    {value: '7', label: 'Juillet'},
+    {value: '8', label: 'Août'},
+    {value: '9', label: 'Septembre'},
     {value: '10', label: 'Octobre'},
     {value: '11', label: 'Novembre'},
     {value: '12', label: 'Décembre'}
   ];
 
   selectedDistribution: string = '';
-  selectedYear: string = ''; // Format YYYY
-  selectedMonth: string = ''; // Format YYYY-MM
+  selectedYear: string = '';
+  selectedMonth: string = '';
 
   constructor(protected authService: AuthenticationService, private managementService: ManagementService, protected platform: Platform) {
   }
 
   async ionViewWillEnter() {
     await this.updateStats();
+  }
+
+  hasFilters(): boolean {
+    return this.selectedDistribution !== '' || this.selectedYear !== '' || this.selectedMonth !== '';
   }
 
   animateStats(targetStats: any | Stats) {
@@ -96,23 +100,11 @@ export class DashboardPage implements ViewWillEnter {
       }, 1000 / frameRate);
     });
 
-    // Données directes (pas besoin d'animer les tableaux)
     this.stats.visitsByDistribution = targetStats.visitsByDistribution;
     this.stats.mostActiveFormations = targetStats.mostActiveFormations;
   }
 
-  async onDistributionChange(event: any) {
-    this.selectedDistribution = event.target.value;
-    await this.updateStats();
-  }
-
-  async onYearChange(event: any) {
-    this.selectedYear = event.target.value;
-    await this.updateStats();
-  }
-
-  async onMonthChange(event: any) {
-    this.selectedMonth = event.target.value;
+  async onFilterChange() {
     await this.updateStats();
   }
 
@@ -124,7 +116,7 @@ export class DashboardPage implements ViewWillEnter {
   }
 
   async updateStats() {
-    this.managementService.getStats(this.selectedMonth, this.selectedYear).subscribe({
+    this.managementService.getStats(this.selectedDistribution, this.selectedMonth, this.selectedYear, '', '').subscribe({
       next: (res) => {
         this.animateStats(res);
       },
@@ -134,7 +126,7 @@ export class DashboardPage implements ViewWillEnter {
     });
     this.managementService.getDistributions().subscribe({
       next: (res: Distribution[]) => {
-        this.distributions = res.map(d => d.name);
+        this.distributions = res;
       },
       error: (err) => {
         console.error('Erreur de récupération des distributions :', err);

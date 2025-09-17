@@ -1,7 +1,12 @@
 <ion-header id="anchor">
   <ion-toolbar id="pageHeader" color="primary">
+    <ion-buttons slot="start">
+      <ion-button id="open-view-card" class="ion-no-padding" fill="clear" size="large">
+        <ion-icon slot="icon-only" name="id-card"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title
-      style="position: absolute; height: 100%; width: 100%; top: 0; text-align: center; font-weight: bold; font-size: 1.3em">
+      style="text-align: center; font-weight: bold; font-size: 1.3em">
       Mon Profil
     </ion-title>
     <ion-buttons slot="end">
@@ -10,6 +15,11 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
+  <ion-modal #viewCardModal trigger="open-view-card" class="auth-modal">
+    <ng-template>
+      <app-view-card-modal [viewCardModal]="viewCardModal" [student]="student"></app-view-card-modal>
+    </ng-template>
+  </ion-modal>
 </ion-header>
 
 <ion-content>
@@ -20,22 +30,22 @@
       </ion-col>
       <ion-col id="info" size="12" size-sm="6">
         <ion-text>
-          <ion-title>{{student?.firstname}} {{student?.lastname}}</ion-title>
-          {{getAge()}} ans
+          <ion-title>{{ student?.firstname }} {{ student?.lastname }}</ion-title>
+          {{ getAge() }} ans
         </ion-text>
-        <ion-text>Date de Naissance: {{student?.birthdate | date:'dd/MM/yyyy'}}</ion-text>
-        <ion-text>Email: {{student?.email}}</ion-text>
+        <ion-text>Date de Naissance: {{ student?.birthdate | date:'dd/MM/yyyy' }}</ion-text>
+        <ion-text>Email: {{ student?.email }}</ion-text>
         <ion-text>
           Étudiant: <a [style.color]="student?.isStudent?'lightgreen':'red'"
-                       style="font-weight: bold">{{student?.isStudent ? 'OUI' : 'NON'}}</a>
+                       style="font-weight: bold">{{ student?.isStudent ? 'OUI' : 'NON' }}</a>
         </ion-text>
         <ion-text *ngIf="student?.isStudent">
-          Niveau: {{student?.graduation?.toString()?.toUpperCase()}}
+          Niveau: {{ student?.graduation?.toString()?.toUpperCase() }}
         </ion-text>
         <ion-text *ngIf="student?.isStudent">
-          Formation: {{student?.formation}}
+          Formation: {{ student?.formation }}
         </ion-text>
-        <ion-text>Membres du Foyer: {{student?.household}}</ion-text>
+        <ion-text>Membres du Foyer: {{ student?.household }}</ion-text>
       </ion-col>
     </ion-row>
   </ion-grid>

@@ -13,7 +13,7 @@ export class CollectService {
   isOpen = false;
   selectedDistribution: Distribution | null = null;
 
-  private apiUrl = 'https://fedet.truttmann.fr';
+  private apiUrl = 'http://fedet.truttmann.fr:8080';
 
   constructor(private http: HttpClient) {
     BarcodeScanner.isSupported().then((result) => {
